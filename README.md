@@ -14,3 +14,5 @@ python3 slack_schedule_send_app.py 'Deepak B' 'hi there' 20:03:03 Away
 ```
 python3 slack_schedule_send_app.py 'Deepak B' 'hi there' 20:50:40 Active
 ```
+
+## Disclaimer: This is created just for fun and uses image recognition internally. So if current slack UI changes it won't work out of the box without code changes!!
