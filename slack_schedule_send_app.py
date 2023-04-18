@@ -5,23 +5,23 @@ import sys
 from datetime import datetime, timedelta
 
 receiver_txt_window_images = [
-    "/home/deepakb/avoma/pyautog_tryouts/receiver_txt_window1.png",
-    "/home/deepakb/avoma/pyautog_tryouts/receiver_txt_window2.png",
+    "/home/myuser/receiver_txt_window1.png",
+    "/home/myuser/avoma/pyautog_tryouts/receiver_txt_window2.png",
 ]
 
 slack_images = [
-    "/home/deepakb/avoma/pyautog_tryouts/slack1.png",
-    "/home/deepakb/avoma/pyautog_tryouts/slack2.png",
+    "/home/myuser/avoma/pyautog_tryouts/slack1.png",
+    "/home/myuser/avoma/pyautog_tryouts/slack2.png",
 ]
 
 available_images = [
-    "/home/deepakb/avoma/pyautog_tryouts/slack_active.png",
-    "/home/deepakb/avoma/pyautog_tryouts/slack_active1.png",
+    "/home/myuser/avoma/pyautog_tryouts/slack_active.png",
+    "/home/myuser/avoma/pyautog_tryouts/slack_active1.png",
 ]
 
 away_images = [
-    "/home/deepakb/avoma/pyautog_tryouts/slack_away.png",
-    "/home/deepakb/avoma/pyautog_tryouts/slack_away1.png",
+    "/home/myuser/avoma/pyautog_tryouts/slack_away.png",
+    "/home/myuser/avoma/pyautog_tryouts/slack_away1.png",
 ]
 
 def wait_for_desired_time(desired_time_str):
