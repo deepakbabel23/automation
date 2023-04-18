@@ -3,3 +3,13 @@
 ## Check out the show_help() command for more details on how to run the actual command to send message
 ## Also includes a helper bash script which helps to set up all necessary environments/packages etc. for this program to run. Just make sure to give execute permissions to the bash script.
 ## Have fun!! Enjoy!!
+
+### Example 1: Launch slack and set yourself as Away and send 'hi there' to 'Deepak B' user at this time: 20:03:03"
+```
+python3 slack_schedule_send_app.py 'Deepak B' 'hi there' 20:03:03 Away
+```
+
+### Example 2: Launch slack and set yourself as Active and send 'hi there' to 'John haywire' user at this time: 20:50:02"
+```
+python3 slack_schedule_send_app.py 'Deepak B' 'hi there' 20:50:40 Active
+```
