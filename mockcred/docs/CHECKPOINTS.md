@@ -48,16 +48,35 @@ commit `8c1bbb6`.
 
 ---
 
-## Phase 1 — Data & import — `WIP`
+## Phase 1 — Data & import — `DONE`
 
-**Scope:** Postgres schema + RLS + migrations; importer for the mock `DATA` format;
-seed the CCAO-F sample (with free-question flags for freemium); Dockerfile +
-docker-compose (app + Postgres); integration tests against Postgres; CI integration
-job (Postgres service) + Playwright e2e skeleton.
+**Delivered:**
+- Portable SQL migrations: `db/migrations/0001_schema.sql` (12 tables + indexes)
+  and `0002_rls.sql` (GUC-based, forced RLS on per-user tables). Runner:
+  `scripts/migrate.ts` (idempotent via `schema_migrations`).
+- DB layer `lib/db.ts` with `asUser()` (sets the `app.current_user_id` GUC so RLS
+  is in force for user-scoped ops).
+- Pure importer `content/importer.ts` (zod-validated) for the mock `DATA` format,
+  HTML-extraction included; DB writer `content/persist.ts` (idempotent upsert).
+- CLI: `scripts/import.ts` (`npm run import`) and `scripts/seed.ts` (`npm run db:seed`).
+- Dockerized: `Dockerfile` (multi-stage, standalone runner) + `docker-compose.yml`
+  (Postgres + one-off migrate/seed + app) → `docker compose up` runs the stack.
+- Full test pyramid wired: unit (`tests/unit`), integration against Postgres
+  (`tests/integration`, incl. RLS isolation proofs), e2e smoke (`tests/e2e`, Playwright).
+- CI (`.github/workflows/ci.yml`) rebuilt into jobs: **quality** (typecheck/lint/unit/build),
+  **integration** (Postgres service), **e2e** (Playwright), **docker** (image build).
+- Local run guide: `docs/LOCAL_DEV.md`.
 
-**Verification (planned):** migrate → import sample → assert 60 questions across 7
-domains, 1 case study (`asteron`), single/multi split (52/8), free/locked split;
-integration suite green in CI against a Postgres service.
+**Verification (local, all green):**
+- Seed on real Postgres → **60 questions, 7 domains, 1 case study (`asteron`),
+  52 single / 8 multi, 10 free samples, 2 products**.
+- `typecheck ✓ · lint ✓ · unit 15 ✓ · integration 5 ✓ · e2e 2 ✓ · build ✓`.
+- RLS proven: a user cannot read or write another user's attempts; with no GUC set,
+  forced RLS returns zero rows.
+
+**Notes:** New decision recorded — pricing is **free-only for now** (products seeded
+`is_active=false`, $0) per the owner; the paywall/entitlement code is wired but nothing
+can be charged until prices are set (see Phase 4).
 
 ---
 

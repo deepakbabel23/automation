@@ -11,16 +11,24 @@
     "typecheck": "tsc --noEmit",
     "test": "vitest run",
     "test:watch": "vitest",
+    "test:integration": "vitest run -c vitest.integration.config.ts",
+    "test:e2e": "playwright test",
+    "db:migrate": "tsx scripts/migrate.ts",
+    "db:seed": "tsx scripts/seed.ts",
+    "import": "tsx scripts/import.ts",
     "format": "prettier --write .",
     "format:check": "prettier --check ."
   },
   "dependencies": {
     "@sentry/nextjs": "8.26.0",
     "next": "14.2.15",
+    "postgres": "3.4.4",
     "react": "18.3.1",
-    "react-dom": "18.3.1"
+    "react-dom": "18.3.1",
+    "zod": "3.23.8"
   },
   "devDependencies": {
+    "@playwright/test": "1.55.0",
     "@types/node": "20.14.10",
     "@types/react": "18.3.3",
     "@types/react-dom": "18.3.0",
@@ -32,6 +40,7 @@
     "prettier": "3.3.3",
     "prettier-plugin-tailwindcss": "0.6.5",
     "tailwindcss": "3.4.6",
+    "tsx": "4.16.2",
     "typescript": "5.5.3",
     "vitest": "1.6.0"
   }

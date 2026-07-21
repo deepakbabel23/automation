@@ -3,6 +3,8 @@ import { withSentryConfig } from "@sentry/nextjs";
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   reactStrictMode: true,
+  // Emit a self-contained server bundle for a small Docker image.
+  output: "standalone",
 };
 
 // Sentry's build plugin only uploads source maps when SENTRY_AUTH_TOKEN is set;

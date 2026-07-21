@@ -1,0 +1,49 @@
+# One-command local stack: Postgres + a one-off migrate/seed + the app.
+#   docker compose up --build
+# Then open http://localhost:3000
+services:
+  db:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_USER: mockcred
+      POSTGRES_PASSWORD: mockcred
+      POSTGRES_DB: mockcred
+    ports:
+      - "5432:5432"
+    volumes:
+      - mockcred_db:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U mockcred -d mockcred"]
+      interval: 3s
+      timeout: 3s
+      retries: 20
+
+  migrate:
+    build:
+      context: .
+      target: builder
+    environment:
+      DATABASE_URL: postgresql://mockcred:mockcred@db:5432/mockcred
+    depends_on:
+      db:
+        condition: service_healthy
+    command: sh -c "npm run db:migrate && npm run db:seed"
+
+  app:
+    build:
+      context: .
+      target: runner
+    environment:
+      DATABASE_URL: postgresql://mockcred:mockcred@db:5432/mockcred
+      NEXT_PUBLIC_APP_URL: http://localhost:3000
+      AUTH_PROVIDER: dev
+    ports:
+      - "3000:3000"
+    depends_on:
+      db:
+        condition: service_healthy
+      migrate:
+        condition: service_completed_successfully
+
+volumes:
+  mockcred_db:

@@ -15,17 +15,36 @@ Resend · PostHog · Sentry · Vercel.
 
 ## Getting started
 
+**Fastest — Docker (one command):**
+
 ```bash
-cd mockcred
-cp .env.example .env.local   # fill in as you reach each phase
-npm install
-npm run dev                  # http://localhost:3000
+git clone https://github.com/deepakbabel23/automation.git
+cd automation/mockcred
+docker compose up --build     # Postgres + migrate + seed + app
+# open http://localhost:3000
 ```
 
-Verify the toolchain:
+**Manual (Node 20+ and Postgres 16):**
 
 ```bash
-npm run typecheck && npm run lint && npm test && npm run build
+cd automation/mockcred
+npm install
+cp .env.example .env.local     # set DATABASE_URL to your Postgres
+npm run db:migrate             # create schema + RLS
+npm run db:seed                # import the sample CCAO-F mock
+npm run dev                    # http://localhost:3000
+```
+
+Full instructions (incl. importing your own bank): [`docs/LOCAL_DEV.md`](./docs/LOCAL_DEV.md).
+
+## Tests
+
+```bash
+npm run typecheck && npm run lint    # static checks
+npm test                             # unit (Vitest)
+npm run test:integration             # integration (needs DATABASE_URL)
+npm run test:e2e                     # end-to-end (Playwright)
+npm run build                        # production build
 ```
 
 ## Build roadmap
