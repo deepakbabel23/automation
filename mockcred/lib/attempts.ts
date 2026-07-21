@@ -1,5 +1,6 @@
 import { sql, asUser } from "@/lib/db";
 import { scoreAttempt, type AnswerOutcome, type ScoreResult } from "@/lib/scoring";
+import { hasAccess } from "@/lib/entitlements";
 
 /** A question as sent to the client DURING an attempt — never includes which
  * option is correct or any explanation. */
@@ -27,6 +28,7 @@ export interface AttemptMeta {
   masteryBenchmark: number;
   mode: "practice" | "timed";
   status: "in_progress" | "submitted" | "expired";
+  expiresAt: string | null;
   scaledScore: number | null;
   rawPercent: number | null;
   passed: boolean | null;
@@ -58,13 +60,66 @@ export async function startPracticeAttempt(userId: string, slug: string): Promis
   });
 }
 
+/** Start a full timed mock attempt over ALL questions. Gated by entitlement. */
+export async function startTimedAttempt(userId: string, slug: string): Promise<string> {
+  const [exam] = await sql`
+    select id, duration_minutes from exams where slug = ${slug} and is_published = true`;
+  if (!exam) throw new Error("exam not found or not published");
+  if (!(await hasAccess(userId, exam.id))) {
+    throw new Error("locked: this exam requires a purchase or subscription");
+  }
+
+  const questions = await sql`
+    select id from questions where exam_id = ${exam.id} order by position`;
+  if (questions.length === 0) throw new Error("exam has no questions");
+
+  return asUser(userId, async (tx) => {
+    const [attempt] = await tx`
+      insert into test_attempts (user_id, exam_id, mode, status, expires_at)
+      values (${userId}, ${exam.id}, 'timed', 'in_progress',
+              now() + make_interval(mins => ${exam.duration_minutes}))
+      returning id`;
+    for (const q of questions) {
+      await tx`insert into attempt_answers (attempt_id, question_id)
+        values (${attempt.id}, ${q.id})`;
+    }
+    return attempt.id as string;
+  });
+}
+
+/** Autosave in-progress selections and flags (for resume). No-op after submit. */
+export async function saveAttemptProgress(
+  userId: string,
+  attemptId: string,
+  answers: Record<string, string[]>,
+  flagged: string[] = [],
+): Promise<void> {
+  const meta = await getAttemptMeta(userId, attemptId);
+  if (!meta || meta.status !== "in_progress") return;
+  const flaggedSet = new Set(flagged);
+  await asUser(userId, async (tx) => {
+    for (const [qid, sel] of Object.entries(answers)) {
+      await tx`update attempt_answers
+        set selected = ${sel}, flagged = ${flaggedSet.has(qid)}
+        where attempt_id = ${attemptId} and question_id = ${qid}`;
+    }
+    for (const qid of flaggedSet) {
+      if (!(qid in answers)) {
+        await tx`update attempt_answers set flagged = true
+          where attempt_id = ${attemptId} and question_id = ${qid}`;
+      }
+    }
+  });
+}
+
 /** Attempt metadata for the owning user (RLS-enforced). Null if not theirs. */
 export async function getAttemptMeta(
   userId: string,
   attemptId: string,
 ): Promise<AttemptMeta | null> {
   const rows = await asUser(userId, (tx) =>
-    tx`select a.id, a.exam_id, a.mode, a.status, a.scaled_score, a.raw_percent, a.passed,
+    tx`select a.id, a.exam_id, a.mode, a.status, a.expires_at, a.scaled_score,
+              a.raw_percent, a.passed,
               e.slug, e.title, e.exam_code, e.pass_scaled, e.mastery_benchmark
        from test_attempts a join exams e on e.id = a.exam_id
        where a.id = ${attemptId}`,
@@ -81,6 +136,7 @@ export async function getAttemptMeta(
     masteryBenchmark: r.mastery_benchmark,
     mode: r.mode,
     status: r.status,
+    expiresAt: r.expires_at ? new Date(r.expires_at).toISOString() : null,
     scaledScore: r.scaled_score,
     rawPercent: r.raw_percent,
     passed: r.passed,
@@ -91,13 +147,16 @@ export async function getAttemptMeta(
 export async function getAttemptQuestions(
   userId: string,
   attemptId: string,
-): Promise<{ question: ClientQuestion; selected: string[] }[]> {
+): Promise<{ question: ClientQuestion; selected: string[]; flagged: boolean }[]> {
   const answerRows = await asUser(userId, (tx) =>
-    tx`select question_id, selected from attempt_answers where attempt_id = ${attemptId}`,
+    tx`select question_id, selected, flagged from attempt_answers where attempt_id = ${attemptId}`,
   );
   if (answerRows.length === 0) return [];
   const selectedByQ = new Map<string, string[]>(
     answerRows.map((r) => [r.question_id as string, (r.selected as string[]) ?? []]),
+  );
+  const flaggedByQ = new Map<string, boolean>(
+    answerRows.map((r) => [r.question_id as string, Boolean(r.flagged)]),
   );
   const ids = [...selectedByQ.keys()];
 
@@ -135,6 +194,7 @@ export async function getAttemptQuestions(
       options: optsByQ.get(q.id) ?? [],
     },
     selected: selectedByQ.get(q.id) ?? [],
+    flagged: flaggedByQ.get(q.id) ?? false,
   }));
 }
 
@@ -190,6 +250,7 @@ export async function submitAttempt(
   }
 
   const score = scoreAttempt(outcomes, { passScaled: meta.passScaled });
+  const expired = meta.expiresAt ? Date.parse(meta.expiresAt) < Date.now() : false;
 
   await asUser(userId, async (tx) => {
     for (const g of graded) {
@@ -198,7 +259,7 @@ export async function submitAttempt(
         where attempt_id = ${attemptId} and question_id = ${g.qid}`;
     }
     await tx`update test_attempts
-      set status = 'submitted', submitted_at = now(),
+      set status = ${expired ? "expired" : "submitted"}, submitted_at = now(),
           scaled_score = ${score.scaled}, raw_percent = ${Math.round(score.percentage)},
           passed = ${score.passed}
       where id = ${attemptId}`;

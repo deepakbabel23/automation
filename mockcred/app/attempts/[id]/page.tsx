@@ -6,6 +6,7 @@ import {
   getAttemptReview,
 } from "@/lib/attempts";
 import QuizRunner from "@/components/QuizRunner";
+import TimedExamRunner from "@/components/TimedExamRunner";
 import AttemptResults from "@/components/AttemptResults";
 
 export const dynamic = "force-dynamic";
@@ -17,6 +18,16 @@ export default async function AttemptPage({ params }: { params: { id: string } }
 
   if (meta.status === "in_progress") {
     const items = await getAttemptQuestions(user.id, params.id);
+    if (meta.mode === "timed") {
+      return (
+        <TimedExamRunner
+          attemptId={meta.id}
+          items={items}
+          examTitle={meta.examTitle}
+          expiresAt={meta.expiresAt}
+        />
+      );
+    }
     return <QuizRunner attemptId={meta.id} items={items} examTitle={meta.examTitle} />;
   }
 

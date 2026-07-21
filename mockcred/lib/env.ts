@@ -22,3 +22,13 @@ export function databaseUrl(): string {
 
 export const AUTH_PROVIDER = optional("AUTH_PROVIDER", "dev"); // "dev" | "clerk"
 export const APP_URL = optional("NEXT_PUBLIC_APP_URL", "http://localhost:3000");
+
+/**
+ * "Free-only for now": while true (default), signed-in users get access to the
+ * full timed mocks without paying — the paywall/entitlement code is wired but
+ * nothing is charged. Set LAUNCH_FREE_ACCESS=false once real prices are live so
+ * the paywall governs access. Read dynamically so it can be toggled at runtime.
+ */
+export function launchFreeAccess(): boolean {
+  return optional("LAUNCH_FREE_ACCESS", "true") !== "false";
+}

@@ -104,6 +104,28 @@ http localhost/e2e stores it; production over https stays Secure).
 
 ---
 
-## Phases 3–4 — `TODO`
+## Phase 3 — Timed mock engine — `DONE`
 
-See `PLAN.md`. Each will append its own checkpoint entry here on completion.
+**Delivered:**
+- Single access-control gate `lib/entitlements.ts` (`hasAccess`, `grantEntitlement`)
+  with the free-only launch flag (`launchFreeAccess()` — everything free until
+  prices are set; paywall governs when off).
+- Timed attempts (`lib/attempts.ts`): `startTimedAttempt` (all questions, gated,
+  `expires_at = now + duration`), `saveAttemptProgress` autosave for resume,
+  expiry handling in submit (past deadline → status `expired`, still scored).
+- `TimedExamRunner` component: countdown timer + auto-submit on expiry, question
+  navigator (answered/flagged/current), flag-for-review, per-question nav, debounced
+  autosave. Exam page gains a "Full timed mock" start + paywall-locked notice;
+  `startTimedAction` redirects to the paywall when locked.
+
+**Verification (local, all green):** `typecheck ✓ · lint ✓ · unit 15 ✓ ·
+integration 18 ✓ · e2e 4 ✓ · build ✓`. New tests prove entitlement scoping
+(all_access vs per-exam), the locked path, the 60-question timed set with a future
+deadline, expiry→expired scoring, plus a full timed-flow e2e (timer + navigator +
+flag + submit).
+
+---
+
+## Phase 4 — Paywall + Razorpay — `TODO`
+
+See `PLAN.md`. Will append its checkpoint entry here on completion.
