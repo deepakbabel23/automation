@@ -1,0 +1,992 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light dark">
+  <title>CCAO-F Impossible Mock Test 01</title>
+  <style>
+    :root {
+      --bg: #f4f1eb;
+      --surface: #fffdf9;
+      --surface-2: #eee9e0;
+      --ink: #1e2024;
+      --muted: #6b6b68;
+      --line: #d9d2c7;
+      --brand: #c6532f;
+      --brand-2: #8f321c;
+      --brand-soft: #f7ddd3;
+      --accent: #175f62;
+      --accent-soft: #d9eeee;
+      --good: #24724a;
+      --good-soft: #dff1e7;
+      --bad: #a93636;
+      --bad-soft: #f8dddd;
+      --warn: #9a6418;
+      --warn-soft: #f8e9c8;
+      --shadow: 0 18px 50px rgba(44, 32, 23, .10);
+      --radius: 18px;
+    }
+    [data-theme="dark"] {
+      --bg: #17191d;
+      --surface: #22252a;
+      --surface-2: #2b2f35;
+      --ink: #f5f0e8;
+      --muted: #b5b0a8;
+      --line: #3c4149;
+      --brand: #f0805c;
+      --brand-2: #ffb097;
+      --brand-soft: #4b2c25;
+      --accent: #75c6c3;
+      --accent-soft: #1d4142;
+      --good: #72cf96;
+      --good-soft: #1f4430;
+      --bad: #ff9292;
+      --bad-soft: #4c2629;
+      --warn: #e6b05f;
+      --warn-soft: #4a3920;
+      --shadow: 0 18px 50px rgba(0, 0, 0, .28);
+    }
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      background:
+        radial-gradient(circle at 8% 2%, color-mix(in srgb, var(--brand) 12%, transparent), transparent 28rem),
+        radial-gradient(circle at 92% 18%, color-mix(in srgb, var(--accent) 10%, transparent), transparent 30rem),
+        var(--bg);
+      color: var(--ink);
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      line-height: 1.55;
+      min-height: 100vh;
+    }
+    button, select { font: inherit; }
+    button { color: inherit; }
+    a { color: var(--accent); }
+    .hidden { display: none !important; }
+    .app-header {
+      height: 68px;
+      padding: 0 28px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-bottom: 1px solid color-mix(in srgb, var(--line) 76%, transparent);
+      background: color-mix(in srgb, var(--surface) 88%, transparent);
+      backdrop-filter: blur(16px);
+      position: sticky;
+      top: 0;
+      z-index: 30;
+    }
+    .brand-lockup { display: flex; align-items: center; gap: 12px; }
+    .brand-mark {
+      width: 38px;
+      height: 38px;
+      border-radius: 11px;
+      display: grid;
+      place-items: center;
+      background: var(--brand);
+      color: white;
+      font-weight: 900;
+      letter-spacing: -.05em;
+      box-shadow: 0 8px 22px color-mix(in srgb, var(--brand) 30%, transparent);
+    }
+    .brand-name { font-weight: 800; letter-spacing: -.02em; }
+    .brand-sub { display: block; color: var(--muted); font-size: 11px; text-transform: uppercase; letter-spacing: .12em; font-weight: 700; }
+    .header-actions { display: flex; align-items: center; gap: 8px; }
+    .icon-btn {
+      width: 40px;
+      height: 40px;
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      background: var(--surface);
+      cursor: pointer;
+      display: grid;
+      place-items: center;
+    }
+    .icon-btn:hover { border-color: var(--brand); }
+    .view { min-height: calc(100vh - 68px); }
+    .container { width: min(1180px, calc(100% - 40px)); margin: 0 auto; }
+    .hero { padding: 68px 0 34px; display: grid; grid-template-columns: 1.15fr .85fr; gap: 42px; align-items: center; }
+    .eyebrow {
+      display: inline-flex;
+      gap: 8px;
+      align-items: center;
+      padding: 7px 11px;
+      border: 1px solid color-mix(in srgb, var(--brand) 35%, var(--line));
+      border-radius: 999px;
+      color: var(--brand-2);
+      background: var(--brand-soft);
+      font-size: 12px;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: .08em;
+    }
+    h1, h2, h3 { line-height: 1.12; margin-top: 0; letter-spacing: -.035em; }
+    h1 { font-size: clamp(42px, 6vw, 76px); margin: 22px 0 18px; max-width: 12ch; }
+    h2 { font-size: clamp(28px, 4vw, 42px); }
+    h3 { font-size: 21px; }
+    .hero-copy { font-size: 18px; color: var(--muted); max-width: 62ch; }
+    .button-row { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 28px; }
+    .btn {
+      border: 1px solid transparent;
+      border-radius: 12px;
+      padding: 12px 18px;
+      font-weight: 800;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      transition: transform .15s ease, background .15s ease, border-color .15s ease;
+    }
+    .btn:hover { transform: translateY(-1px); }
+    .btn-primary { background: var(--brand); color: white; box-shadow: 0 10px 24px color-mix(in srgb, var(--brand) 24%, transparent); }
+    .btn-primary:hover { background: var(--brand-2); }
+    .btn-secondary { background: var(--surface); border-color: var(--line); }
+    .btn-secondary:hover { border-color: var(--brand); }
+    .btn-ghost { background: transparent; border-color: var(--line); }
+    .btn-danger { background: var(--bad); color: #fff; }
+    .hero-panel {
+      background: linear-gradient(145deg, color-mix(in srgb, var(--surface) 94%, white), var(--surface));
+      border: 1px solid var(--line);
+      border-radius: 26px;
+      box-shadow: var(--shadow);
+      overflow: hidden;
+    }
+    .hero-panel-top { background: var(--ink); color: var(--surface); padding: 22px 24px; }
+    [data-theme="dark"] .hero-panel-top { background: #0f1114; }
+    .hero-panel-top strong { font-size: 22px; display: block; }
+    .hero-panel-top span { opacity: .72; font-size: 13px; }
+    .stat-grid { display: grid; grid-template-columns: repeat(2, 1fr); }
+    .stat { padding: 22px 24px; border-right: 1px solid var(--line); border-bottom: 1px solid var(--line); }
+    .stat:nth-child(even) { border-right: 0; }
+    .stat:nth-last-child(-n+2) { border-bottom: 0; }
+    .stat strong { display: block; font-size: 30px; letter-spacing: -.04em; }
+    .stat span { color: var(--muted); font-size: 13px; }
+    .notice {
+      margin-top: 18px;
+      border-left: 4px solid var(--accent);
+      background: var(--accent-soft);
+      padding: 14px 16px;
+      border-radius: 0 12px 12px 0;
+      color: var(--ink);
+      font-size: 14px;
+    }
+    .section { padding: 42px 0; }
+    .section-head { display: flex; align-items: end; justify-content: space-between; gap: 24px; margin-bottom: 22px; }
+    .section-head p { color: var(--muted); max-width: 62ch; margin: 0; }
+    .card {
+      background: var(--surface);
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      box-shadow: 0 10px 28px rgba(44, 32, 23, .06);
+    }
+    .table-wrap { overflow-x: auto; }
+    table { border-collapse: collapse; width: 100%; }
+    th, td { text-align: left; padding: 14px 16px; border-bottom: 1px solid var(--line); }
+    th { font-size: 12px; color: var(--muted); text-transform: uppercase; letter-spacing: .08em; }
+    tbody tr:last-child td { border-bottom: 0; }
+    .pill {
+      display: inline-flex;
+      align-items: center;
+      border-radius: 999px;
+      padding: 5px 9px;
+      font-size: 11px;
+      font-weight: 800;
+      background: var(--surface-2);
+      color: var(--muted);
+    }
+    .grid-2 { display: grid; grid-template-columns: repeat(2, 1fr); gap: 18px; }
+    .feature-card { padding: 22px; }
+    .feature-card p { margin-bottom: 0; color: var(--muted); }
+    .footer-note { color: var(--muted); font-size: 13px; padding: 36px 0 60px; text-align: center; }
+
+    .exam-topbar {
+      min-height: 72px;
+      padding: 10px 24px;
+      background: var(--surface);
+      border-bottom: 1px solid var(--line);
+      position: sticky;
+      top: 68px;
+      z-index: 20;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 18px;
+    }
+    .exam-title strong { display: block; }
+    .exam-title span { color: var(--muted); font-size: 12px; }
+    .exam-status { display: flex; align-items: center; gap: 16px; }
+    .timer {
+      min-width: 118px;
+      padding: 9px 12px;
+      background: var(--surface-2);
+      border: 1px solid var(--line);
+      border-radius: 11px;
+      text-align: center;
+      font-weight: 900;
+      font-variant-numeric: tabular-nums;
+    }
+    .timer.warning { color: var(--bad); background: var(--bad-soft); border-color: color-mix(in srgb, var(--bad) 45%, var(--line)); }
+    .progress-copy { color: var(--muted); font-size: 13px; }
+    .exam-shell { display: grid; grid-template-columns: 290px minmax(0, 1fr); min-height: calc(100vh - 140px); }
+    .palette {
+      border-right: 1px solid var(--line);
+      background: color-mix(in srgb, var(--surface) 78%, transparent);
+      padding: 22px;
+      position: sticky;
+      top: 140px;
+      align-self: start;
+      height: calc(100vh - 140px);
+      overflow: auto;
+    }
+    .palette h3 { font-size: 16px; margin-bottom: 12px; }
+    .palette-select { width: 100%; border: 1px solid var(--line); background: var(--surface); color: var(--ink); border-radius: 10px; padding: 9px 10px; margin-bottom: 14px; }
+    .palette-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 8px; }
+    .q-chip {
+      aspect-ratio: 1;
+      border-radius: 9px;
+      border: 1px solid var(--line);
+      background: var(--surface);
+      cursor: pointer;
+      font-size: 12px;
+      font-weight: 800;
+      position: relative;
+    }
+    .q-chip:hover { border-color: var(--brand); }
+    .q-chip.answered { background: var(--accent-soft); color: var(--accent); border-color: color-mix(in srgb, var(--accent) 45%, var(--line)); }
+    .q-chip.current { outline: 3px solid color-mix(in srgb, var(--brand) 28%, transparent); border-color: var(--brand); }
+    .q-chip.flagged::after { content: ""; position: absolute; width: 7px; height: 7px; border-radius: 50%; background: var(--warn); top: 4px; right: 4px; }
+    .legend { display: grid; grid-template-columns: 1fr 1fr; gap: 8px 10px; margin-top: 18px; color: var(--muted); font-size: 11px; }
+    .legend span { display: flex; align-items: center; gap: 7px; }
+    .dot { width: 10px; height: 10px; border-radius: 3px; border: 1px solid var(--line); background: var(--surface); }
+    .dot.ans { background: var(--accent-soft); border-color: var(--accent); }
+    .dot.flag { border-radius: 50%; background: var(--warn); border: 0; }
+    .dot.cur { outline: 2px solid var(--brand); }
+    .exam-main { padding: 36px clamp(22px, 5vw, 72px) 60px; max-width: 1050px; width: 100%; margin: 0 auto; }
+    .question-card { padding: clamp(22px, 4vw, 40px); }
+    .question-kicker { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 18px; }
+    .domain-pill { background: var(--brand-soft); color: var(--brand-2); }
+    .question-title { font-size: clamp(22px, 3vw, 30px); line-height: 1.35; letter-spacing: -.02em; margin-bottom: 26px; }
+    .case-box { margin: 0 0 24px; border: 1px solid color-mix(in srgb, var(--accent) 40%, var(--line)); background: var(--accent-soft); border-radius: 14px; overflow: hidden; }
+    .case-box summary { cursor: pointer; padding: 13px 16px; font-weight: 850; }
+    .case-box p { margin: 0; padding: 0 16px 16px; color: var(--ink); }
+    .selection-note { color: var(--muted); font-size: 13px; margin: -12px 0 20px; }
+    .options { display: grid; gap: 12px; }
+    .option {
+      width: 100%;
+      text-align: left;
+      border: 1px solid var(--line);
+      background: var(--surface);
+      border-radius: 14px;
+      padding: 15px 17px;
+      cursor: pointer;
+      display: grid;
+      grid-template-columns: 34px minmax(0, 1fr);
+      gap: 12px;
+      align-items: start;
+    }
+    .option:hover { border-color: color-mix(in srgb, var(--brand) 70%, var(--line)); background: color-mix(in srgb, var(--brand-soft) 32%, var(--surface)); }
+    .option.selected { border-color: var(--brand); background: var(--brand-soft); box-shadow: 0 0 0 2px color-mix(in srgb, var(--brand) 20%, transparent); }
+    .letter {
+      width: 32px;
+      height: 32px;
+      border-radius: 9px;
+      display: grid;
+      place-items: center;
+      background: var(--surface-2);
+      border: 1px solid var(--line);
+      font-weight: 900;
+      line-height: 1;
+    }
+    .option.selected .letter { background: var(--brand); border-color: var(--brand); color: white; }
+    .option-text { padding-top: 3px; }
+    .question-actions { margin-top: 28px; display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 12px; }
+    .action-left, .action-right { display: flex; flex-wrap: wrap; gap: 10px; }
+    .flag-active { background: var(--warn-soft); border-color: var(--warn); color: var(--warn); }
+    .mobile-palette-btn { display: none; }
+
+    .results-wrap { padding: 54px 0 70px; }
+    .result-hero { display: grid; grid-template-columns: 240px 1fr; gap: 34px; align-items: center; padding: 34px; }
+    .score-ring {
+      width: 190px;
+      height: 190px;
+      border-radius: 50%;
+      display: grid;
+      place-items: center;
+      margin: auto;
+      position: relative;
+      background: conic-gradient(var(--brand) var(--score-angle, 0deg), var(--surface-2) 0);
+    }
+    .score-ring::after { content: ""; width: 145px; height: 145px; border-radius: 50%; background: var(--surface); position: absolute; }
+    .score-inner { position: relative; z-index: 1; text-align: center; }
+    .score-inner strong { display: block; font-size: 43px; line-height: 1; letter-spacing: -.05em; }
+    .score-inner span { color: var(--muted); font-size: 12px; }
+    .result-copy p { color: var(--muted); }
+    .result-grid { margin-top: 20px; display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+    .result-panel { padding: 24px; }
+    .metric-row { display: grid; grid-template-columns: minmax(0, 1fr) 54px; gap: 12px; align-items: center; margin: 15px 0; }
+    .metric-label { display: flex; justify-content: space-between; gap: 10px; font-size: 13px; }
+    .metric-label span:first-child { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+    .bar { height: 8px; border-radius: 99px; background: var(--surface-2); overflow: hidden; margin-top: 7px; }
+    .bar > i { display: block; height: 100%; background: var(--accent); border-radius: inherit; }
+    .metric-score { text-align: right; font-weight: 850; font-size: 13px; }
+    .result-note { margin-top: 18px; font-size: 13px; color: var(--muted); }
+
+    .review-wrap { padding: 42px 0 70px; }
+    .review-toolbar { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 12px; margin-bottom: 20px; }
+    .review-list { display: grid; gap: 18px; }
+    .review-card { padding: 26px; }
+    .review-card.correct-card { border-left: 5px solid var(--good); }
+    .review-card.wrong-card { border-left: 5px solid var(--bad); }
+    .review-option { border: 1px solid var(--line); border-radius: 12px; padding: 12px 14px; margin: 8px 0; }
+    .review-option.correct-choice { background: var(--good-soft); border-color: color-mix(in srgb, var(--good) 45%, var(--line)); }
+    .review-option.wrong-selected { background: var(--bad-soft); border-color: color-mix(in srgb, var(--bad) 45%, var(--line)); }
+    .review-option-head { display: flex; align-items: flex-start; gap: 9px; }
+    .review-option-head strong { min-width: 22px; }
+    .review-explanation { color: var(--muted); font-size: 13px; margin: 7px 0 0 31px; }
+    .rationale { margin-top: 18px; background: var(--surface-2); padding: 15px 17px; border-radius: 12px; }
+    .rationale strong { display: block; margin-bottom: 5px; }
+    .meta-grid { margin-top: 16px; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px 18px; font-size: 12px; color: var(--muted); }
+    .meta-grid b { color: var(--ink); }
+    .empty { padding: 50px; text-align: center; color: var(--muted); }
+
+    .modal-backdrop { position: fixed; inset: 0; z-index: 100; background: rgba(0,0,0,.55); display: grid; place-items: center; padding: 20px; }
+    .modal { width: min(480px, 100%); background: var(--surface); border: 1px solid var(--line); border-radius: 18px; box-shadow: var(--shadow); padding: 25px; }
+    .modal p { color: var(--muted); }
+    .modal-actions { display: flex; justify-content: flex-end; flex-wrap: wrap; gap: 10px; margin-top: 20px; }
+    .toast { position: fixed; left: 50%; bottom: 24px; transform: translateX(-50%); z-index: 120; background: var(--ink); color: var(--surface); padding: 10px 15px; border-radius: 10px; box-shadow: var(--shadow); font-weight: 700; font-size: 13px; }
+
+    @media (max-width: 900px) {
+      .hero { grid-template-columns: 1fr; padding-top: 42px; }
+      .exam-shell { grid-template-columns: 1fr; }
+      .palette { display: none; position: fixed; inset: 140px 0 0 0; z-index: 25; height: auto; border-right: 0; background: var(--surface); }
+      .palette.open { display: block; }
+      .mobile-palette-btn { display: inline-flex; }
+      .result-hero { grid-template-columns: 1fr; text-align: center; }
+      .result-grid { grid-template-columns: 1fr; }
+    }
+    @media (max-width: 620px) {
+      .app-header { padding: 0 16px; }
+      .brand-sub { display: none; }
+      .container { width: min(100% - 24px, 1180px); }
+      .grid-2 { grid-template-columns: 1fr; }
+      .exam-topbar { top: 68px; padding: 9px 12px; }
+      .exam-title { display: none; }
+      .exam-status { width: 100%; justify-content: space-between; }
+      .exam-main { padding: 18px 12px 40px; }
+      .question-card { padding: 20px 16px; }
+      .question-title { font-size: 20px; }
+      .option { padding: 12px; grid-template-columns: 30px minmax(0, 1fr); gap: 9px; }
+      .letter { width: 29px; height: 29px; }
+      .question-actions { align-items: stretch; }
+      .action-left, .action-right { width: 100%; }
+      .action-right .btn { flex: 1; }
+      .result-hero, .result-panel { padding: 22px 16px; }
+      .meta-grid { grid-template-columns: 1fr; }
+      .review-card { padding: 20px 15px; }
+    }
+    @media print {
+      body { background: white; color: black; }
+      .app-header, .exam-topbar, .palette, .button-row, .review-toolbar, .question-actions { display: none !important; }
+      .view { min-height: auto; }
+      .card, .review-card { box-shadow: none; break-inside: avoid; border-color: #bbb; }
+      .review-list { display: block; }
+      .review-card { margin-bottom: 16px; }
+      .results-wrap, .review-wrap { padding: 0; }
+    }
+  </style>
+</head>
+<body>
+  <header class="app-header">
+    <div class="brand-lockup">
+      <div class="brand-mark">C</div>
+      <div>
+        <div class="brand-name">CCAO-F Exam Lab</div>
+        <span class="brand-sub">Certification committee edition</span>
+      </div>
+    </div>
+    <div class="header-actions">
+      <button class="icon-btn" id="homeBtn" title="Home" aria-label="Go to home">⌂</button>
+      <button class="icon-btn" id="themeBtn" title="Toggle theme" aria-label="Toggle color theme">◐</button>
+    </div>
+  </header>
+
+  <section id="landingView" class="view">
+    <div class="container">
+      <div class="hero">
+        <div>
+          <span class="eyebrow">Level 4 · Impossible</span>
+          <h1>One exam. No easy exits.</h1>
+          <p class="hero-copy">A 60-item, blueprint-weighted CCAO-F simulation built for judgment under ambiguity. Every distractor is plausible; every explanation is grounded in the supplied July 2026 course notes and exam guide.</p>
+          <div class="button-row">
+            <button class="btn btn-primary" id="startBtn">Start 120-minute exam</button>
+            <button class="btn btn-secondary hidden" id="resumeBtn">Resume saved attempt</button>
+          </div>
+          <div class="notice"><b>Scoring note:</b> the 80% benchmark is a deliberately demanding practice target. It is not a conversion of Anthropic's scaled passing score of 720.</div>
+        </div>
+        <aside class="hero-panel" aria-label="Exam facts">
+          <div class="hero-panel-top">
+            <strong>Impossible Mock 01</strong>
+            <span>Original practice content · not live exam material</span>
+          </div>
+          <div class="stat-grid">
+            <div class="stat"><strong>60</strong><span>scored questions</span></div>
+            <div class="stat"><strong>120</strong><span>minutes</span></div>
+            <div class="stat"><strong>7</strong><span>blueprint domains</span></div>
+            <div class="stat"><strong>10</strong><span>linked case items</span></div>
+          </div>
+        </aside>
+      </div>
+
+      <div class="section">
+        <div class="section-head">
+          <div><span class="eyebrow">Blueprint</span><h2 style="margin:16px 0 0">Exact 60-item distribution</h2></div>
+          <p>Whole-item rounding follows the supplied practice blueprint: 8 / 13 / 7 / 10 / 7 / 9 / 6.</p>
+        </div>
+        <div class="card table-wrap">
+          <table>
+            <thead><tr><th>Domain</th><th>Content domain</th><th>Official weight</th><th>Items</th></tr></thead>
+            <tbody id="blueprintBody"></tbody>
+          </table>
+        </div>
+      </div>
+
+      <div class="section">
+        <div class="section-head">
+          <div><span class="eyebrow">Design controls</span><h2 style="margin:16px 0 0">What makes this mock difficult</h2></div>
+        </div>
+        <div class="grid-2">
+          <article class="card feature-card"><h3>Reasoning-weighted</h3><p>90% of items sit above simple recall. The exact Bloom mix is 6 Remember, 12 Understand, 18 Apply, 15 Analyze, 6 Evaluate, and 3 Create.</p></article>
+          <article class="card feature-card"><h3>Cross-module traps</h3><p>Items combine prompting, validation, product selection, governance, configuration, and troubleshooting so a technically true answer can still be wrong for the situation.</p></article>
+          <article class="card feature-card"><h3>Case-study continuity</h3><p>Questions 41-50 share Asteron Components, the same project, stakeholders, data boundaries, workflow, and decision ownership.</p></article>
+          <article class="card feature-card"><h3>Post-submit audit trail</h3><p>Review includes the correct answer, why every option is right or wrong, lesson, concept, Bloom level, difficulty, confidence, and official-source path.</p></article>
+        </div>
+      </div>
+
+      <div class="section">
+        <div class="section-head"><div><span class="eyebrow">Rules</span><h2 style="margin:16px 0 0">Before you begin</h2></div></div>
+        <div class="card" style="padding:24px 28px">
+          <ol>
+            <li>Single-choice items require one answer. Multiple-response items state exactly how many answers to select.</li>
+            <li>Multiple-response scoring is all-or-nothing. Unanswered items score as incorrect.</li>
+            <li>You may flag, clear, and revisit questions until submission or time expiry.</li>
+            <li>Answers and rationales are revealed only after submission.</li>
+            <li>Your attempt is stored in this browser so an accidental refresh can be resumed.</li>
+          </ol>
+        </div>
+      </div>
+      <div class="footer-note">Prepared against Claude Certified Associate Course Notes and Exam Guide v1.0 (effective July 2026). This is original training material, not Anthropic exam content.</div>
+    </div>
+  </section>
+
+  <section id="examView" class="view hidden">
+    <div class="exam-topbar">
+      <div class="exam-title"><strong>Impossible Mock 01</strong><span>CCAO-F · 60 questions</span></div>
+      <div class="exam-status">
+        <button class="btn btn-secondary mobile-palette-btn" id="paletteToggle">Questions</button>
+        <span class="progress-copy" id="progressCopy">0 of 60 answered</span>
+        <div class="timer" id="timer" aria-live="polite">120:00</div>
+        <button class="btn btn-primary" id="submitBtn">Submit</button>
+      </div>
+    </div>
+    <div class="exam-shell">
+      <aside class="palette" id="palette">
+        <h3>Question navigator</h3>
+        <select class="palette-select" id="domainFilter" aria-label="Filter question navigator by domain">
+          <option value="all">All domains</option>
+        </select>
+        <div class="palette-grid" id="paletteGrid"></div>
+        <div class="legend">
+          <span><i class="dot"></i> Unanswered</span>
+          <span><i class="dot ans"></i> Answered</span>
+          <span><i class="dot flag"></i> Flagged</span>
+          <span><i class="dot cur"></i> Current</span>
+        </div>
+      </aside>
+      <main class="exam-main">
+        <article class="card question-card">
+          <div class="question-kicker" id="questionKicker"></div>
+          <details class="case-box hidden" id="caseBox" open>
+            <summary id="caseTitle"></summary>
+            <p id="caseText"></p>
+          </details>
+          <h2 class="question-title" id="questionText"></h2>
+          <p class="selection-note" id="selectionNote"></p>
+          <div class="options" id="options"></div>
+          <div class="question-actions">
+            <div class="action-left">
+              <button class="btn btn-ghost" id="flagBtn">⚑ Flag</button>
+              <button class="btn btn-ghost" id="clearBtn">Clear answer</button>
+            </div>
+            <div class="action-right">
+              <button class="btn btn-secondary" id="prevBtn">Previous</button>
+              <button class="btn btn-primary" id="nextBtn">Next</button>
+            </div>
+          </div>
+        </article>
+      </main>
+    </div>
+  </section>
+
+  <section id="resultsView" class="view hidden">
+    <div class="container results-wrap">
+      <article class="card result-hero">
+        <div class="score-ring" id="scoreRing"><div class="score-inner"><strong id="scorePercent">0%</strong><span id="scoreFraction">0 / 60</span></div></div>
+        <div class="result-copy">
+          <span class="eyebrow" id="resultBadge">Result</span>
+          <h2 id="resultHeading" style="margin:16px 0 10px">Attempt complete</h2>
+          <p id="resultSummary"></p>
+          <div class="button-row">
+            <button class="btn btn-primary" id="reviewWrongBtn">Review incorrect</button>
+            <button class="btn btn-secondary" id="reviewAllBtn">Review all</button>
+            <button class="btn btn-secondary" id="downloadBtn">Download result</button>
+            <button class="btn btn-ghost" id="printBtn">Print</button>
+          </div>
+        </div>
+      </article>
+      <div class="result-grid">
+        <article class="card result-panel"><h3>Performance by domain</h3><div id="domainResults"></div></article>
+        <article class="card result-panel"><h3>Performance by Bloom level</h3><div id="bloomResults"></div></article>
+      </div>
+      <div class="notice result-note">Raw practice percentage is shown for learning feedback. The live certification uses a scaled score from 100-1,000 with a passing score of 720; raw percentages do not convert directly.</div>
+      <div class="button-row" style="justify-content:center;margin-top:24px"><button class="btn btn-ghost" id="retakeBtn">Start a fresh attempt</button></div>
+    </div>
+  </section>
+
+  <section id="reviewView" class="view hidden">
+    <div class="container review-wrap">
+      <div class="review-toolbar">
+        <div><span class="eyebrow">Post-exam review</span><h2 style="margin:14px 0 0">Answer audit</h2></div>
+        <div class="button-row" style="margin:0">
+          <button class="btn btn-secondary" id="backResultsBtn">Back to results</button>
+          <select class="palette-select" id="reviewFilter" style="width:auto;margin:0" aria-label="Filter reviewed questions">
+            <option value="incorrect">Incorrect only</option>
+            <option value="all">All questions</option>
+            <option value="correct">Correct only</option>
+            <option value="flagged">Flagged only</option>
+          </select>
+        </div>
+      </div>
+      <div class="review-list" id="reviewList"></div>
+    </div>
+  </section>
+
+  <div class="modal-backdrop hidden" id="modalBackdrop" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+    <div class="modal">
+      <h3 id="modalTitle">Confirm</h3>
+      <p id="modalText"></p>
+      <div class="modal-actions">
+        <button class="btn btn-secondary" id="modalCancel">Cancel</button>
+        <button class="btn btn-primary" id="modalConfirm">Confirm</button>
+      </div>
+    </div>
+  </div>
+  <div class="toast hidden" id="toast" role="status"></div>
+
+  <script>
+    const DATA = {"title":"CCAO-F Impossible Mock Test 01","subtitle":"Claude Certified Associate - Foundations | Level 4","version":"1.0","examCode":"CCAO-F","sourceVersion":"Exam Guide v1.0 - Effective July 2026","createdDate":"2026-07-22","durationMinutes":120,"masteryBenchmark":80,"questionCount":60,"blueprint":[{"domain":1,"name":"Prompting and Task Execution","weight":14,"items":8},{"domain":2,"name":"Output Evaluation and Validation","weight":21,"items":13},{"domain":3,"name":"Product and Model Selection","weight":12,"items":7},{"domain":4,"name":"Workflow Integration and Solution Design","weight":16,"items":10},{"domain":5,"name":"Configuration and Knowledge Management","weight":12,"items":7},{"domain":6,"name":"Governance, Risk, and Responsible Use","weight":15,"items":9},{"domain":7,"name":"Troubleshooting and Optimization","weight":10,"items":6}],"bloomTarget":[{"level":"Remember","percent":10,"items":6},{"level":"Understand","percent":20,"items":12},{"level":"Apply","percent":30,"items":18},{"level":"Analyze","percent":25,"items":15},{"level":"Evaluate","percent":10,"items":6},{"level":"Create","percent":5,"items":3}],"caseStudies":{"asteron":{"title":"Case Study: Asteron Components Supplier Resilience Project","questionRange":"Questions 41-50","scenario":"Asteron Components is a mid-sized manufacturer establishing a monthly supplier-resilience workflow. Each cycle, analysts collect approved supplier-performance PDFs from Google Drive, a spend CSV, and current reports about disruptions in several countries. They calculate supplier-concentration metrics, draft a board-facing brief, and recommend where procurement leaders should investigate. The procurement director remains accountable for supplier decisions and approves every board deliverable. Asteron uses a Team plan. Supplier names are internal data; bank details and personal contacts are restricted by policy. External and executive deliverables require human review. The pilot Project has standing instructions, a curated knowledge base, scoped Memory, and a proposed third-party report-formatting Skill from an unknown publisher."}},"questions":[{"id":1,"domain":2,"variant":"Most Appropriate Action","selection":"single","question":"Claude summarizes an uploaded service-level agreement and correctly states that service credits apply below 99.9% uptime. It omits the clause requiring the customer to submit a claim within 10 days. Every requested heading is present, and the summary is only for an internal negotiation-preparation meeting. What is the most appropriate verdict and next step?","options":{"A":"Needs revision: correct the material omission using only the agreement and require clause-level traceability for conditions and deadlines.","B":"Ready to use: the stated uptime threshold is accurate and the summary is internal.","C":"Needs human override: any omission in a contract summary means Claude should no longer be used for the task.","D":"Ready to use after asking Claude whether it is confident that no deadline was omitted."},"correct":["A"],"rationale":"The output passes the requested-heading check but fails source fidelity and completeness on a term that changes whether the credit can be claimed. Because the use is internal preparation and the defect is specific and correctable, the proper triage is needs revision, with a source-restricted, auditable correction.","optionExplanations":{"A":"Correct. It names the source-material and completeness failure, applies proportionate review, and uses a targeted grounded revision.","B":"Incorrect. Accuracy of the threshold does not compensate for a material completeness failure concerning the claim deadline.","C":"Incorrect. The omission requires legal review before any binding use, but it does not make Claude categorically unusable for internal preparation; this answer over-escalates the correctable draft.","D":"Incorrect. Claude's self-reported confidence is not independent validation and does not recover the omitted clause."},"concept":"Three-reference review and three-way output triage","lesson":"Discernment: Accuracy & Completeness","bloom":"Apply","difficulty":9,"confidence":"High","reference":"Course Notes > Evaluating & Validating Claude's Output > Discernment: Accuracy & Completeness; Exam Guide v1.0, Section 6, Domain 2.","officialTerminology":["Discernment","source material","completeness","needs revision"],"distractorPatterns":["accurate-but-incomplete","wrong escalation","self-validation"],"scenarioType":"contract analysis","crossModules":[1,6],"lastReviewDate":"2026-07-22","appearedInMocks":["CCAO-F Impossible Mock Test 01"]},{"id":2,"domain":1,"variant":"Best Sequence","selection":"single","question":"A customer-success lead must turn 300 survey responses into a leadership brief, a team action list, and a customer FAQ. Which sequence best preserves both efficiency and reliability?","options":{"A":"Draft all three deliverables, compare their themes, then inspect the survey only where the drafts disagree.","B":"Define the decision and required outputs; extract and quantify themes; verify the extracted evidence; then draft each audience-specific deliverable from the verified foundation.","C":"Ask for one comprehensive document containing all three formats so the wording stays consistent, then shorten it manually.","D":"Draft the customer FAQ first because it is most concrete, infer the action list from it, and derive the leadership brief last."},"correct":["B"],"rationale":"The shared, high-stakes foundation is the interpretation of the survey evidence. Defining the decision, extracting themes, and verifying them before parallel drafting prevents one misread from propagating into three deliverables while still allowing each output to be adapted to its audience.","optionExplanations":{"A":"Incorrect. It builds three outputs on unverified evidence and uses disagreement between drafts as a proxy for source validation.","B":"Correct. It sequences the shared extraction and verification before audience-specific drafting.","C":"Incorrect. Combining distinct deliverables in one pass encourages shallow coverage and does not create a checkable intermediate result.","D":"Incorrect. It treats one derivative deliverable as the evidence base and can propagate FAQ framing into unrelated decisions."},"concept":"Decomposition with a verified shared foundation","lesson":"Task Decomposition","bloom":"Understand","difficulty":9,"confidence":"High","reference":"Course Notes > Prompting & Task Execution > Task Decomposition, including the Parallel Case; Exam Guide v1.0, Section 6, Domain 1.","officialTerminology":["decomposition","ordered steps","checkable intermediate result"],"distractorPatterns":["wrong order","single-pass compression","derivative-as-source"],"scenarioType":"best sequence","crossModules":[2,4],"lastReviewDate":"2026-07-22","appearedInMocks":["CCAO-F Impossible Mock Test 01"]},{"id":3,"domain":6,"variant":"Multiple Response","selection":"multi","answerCount":2,"question":"An HR analyst wants Claude to find staffing trends in a roster containing employee IDs, home addresses, and medical-leave details. Organizational policy classifies medical information as restricted. Which TWO actions are required before any data is uploaded?","options":{"A":"Confirm an approved entry point and handling path for the restricted data under organizational policy.","B":"Use Incognito mode, because exclusion from chat history and Memory makes restricted data compliant to upload.","C":"Upload the original file but add a prompt instructing Claude not to reveal private fields.","D":"Remove fields the trend analysis does not require and anonymize identifiers wherever the analytical task permits.","E":"Use the highest-capability model so fewer people need to review the data."},"correct":["A","D"],"rationale":"Restricted data must be classified and routed through an approved path before upload. Data minimization and anonymization should remove details that the task does not need. Incognito controls history and Memory, not underlying retention or policy authorization, and a prompt is not a privacy control.","optionExplanations":{"A":"Correct. Red-tier or restricted data requires an approved entry point confirmed before upload.","B":"Incorrect. Incognito does not override organizational retention or make prohibited data safe.","C":"Incorrect. A confidentiality instruction cannot substitute for policy compliance, access controls, or data minimization.","D":"Correct. Removing unnecessary identifiers and restricted fields reduces exposure without sacrificing the trend analysis.","E":"Incorrect. Model capability does not change data classification, authorization, or accountability."},"concept":"Classify first, then minimize and select an approved control","lesson":"Data Sensitivity, Privacy & Feature Controls","bloom":"Apply","difficulty":9,"confidence":"High","reference":"Course Notes > Governance, Risk & Responsible Use > Data Sensitivity, Privacy & Feature Controls; Exam Guide v1.0, Section 6, Domain 6.","officialTerminology":["data classification","redaction","anonymization","Incognito mode"],"distractorPatterns":["wrong control","instruction-as-control","model-tier fallacy"],"scenarioType":"data governance","crossModules":[3,5],"lastReviewDate":"2026-07-22","appearedInMocks":["CCAO-F Impossible Mock Test 01"]},{"id":4,"domain":3,"variant":"Feature Mapping","selection":"single","question":"Which mapping most accurately distinguishes Claude's entry points for current-information work?","options":{"A":"Use Research for every current fact; regular Chat cannot search the web.","B":"Use a Project for any current fact because Project knowledge automatically updates from the web.","C":"Use web search in Chat for a quick current lookup, Research for deep multi-source synthesis, and a Project for a recurring workstream with stable context.","D":"Use an Artifact for multi-source investigation when sources must remain editable and reusable; store it in a Project so current facts persist across sessions."},"correct":["C"],"rationale":"The course distinguishes quick current lookups through web search in Chat from deeper multi-step, multi-source synthesis through Research. A Project solves recurring-context needs; an Artifact is an output modality, not a research engine.","optionExplanations":{"A":"Incorrect. Chat can use web search for quick currency needs; Research is not required for every current fact.","B":"Incorrect. A Project persists configured context but does not automatically refresh its knowledge from the web.","C":"Correct. It maps each feature to the problem it is designed to solve.","D":"Incorrect. Artifacts hold editable deliverables; they do not independently investigate or persist live sources."},"concept":"Chat, Research, Project, and Artifact boundaries","lesson":"Core Entry Points","bloom":"Remember","difficulty":8,"confidence":"High","reference":"Course Notes > Claude Platform & Model Foundations > Core Entry Points; Exam Guide v1.0, Section 6, Domain 3.","officialTerminology":["Chat","web search","Research","Project","Artifact"],"distractorPatterns":["wrong feature","automatic-refresh assumption","output-versus-entry-point confusion"],"scenarioType":"product selection","crossModules":[1,5],"lastReviewDate":"2026-07-22","appearedInMocks":["CCAO-F Impossible Mock Test 01"]},{"id":5,"domain":4,"variant":"Next Best Step","selection":"single","question":"A department head says, 'We need better reporting,' and sends a meeting transcript, three sample reports, and a thread of complaints. Before designing a solution, what should the associate ask Claude to do?","options":{"A":"Choose the most attractive sample and reproduce its layout as an Artifact.","B":"Write a narrative summary of every file so stakeholders can decide what they meant.","C":"Choose Sonnet as the default, estimate time savings from the samples, and use that estimate to decide which reporting requirements deserve detailed definition.","D":"Extract structured requirements - audience, decision, cadence, data, format, and constraints - then pressure-test them for ambiguity, conflict, and gaps."},"correct":["D"],"rationale":"Claude adds early value by translating messy inputs into structured requirements and then challenging the extraction. Designing a report or choosing tools before clarifying what must be built risks optimizing the wrong solution.","optionExplanations":{"A":"Incorrect. It jumps to a prototype before establishing the requirements and success criteria.","B":"Incorrect. A narrative summary is less actionable than a structured requirement set and does not pressure-test gaps.","C":"Incorrect. Tool and value claims should follow a clear definition of the work and its requirements.","D":"Correct. It performs requirements translation and a separate pressure-test before solution design."},"concept":"Requirements extraction and pressure-testing","lesson":"Analyzing Requirements & Use Cases","bloom":"Apply","difficulty":9,"confidence":"High","reference":"Course Notes > Workflow Integration & Solution Design > Analyzing Requirements & Use Cases; Exam Guide v1.0, Section 6, Domain 4.","officialTerminology":["structured requirements","pressure-testing","testable requirements"],"distractorPatterns":["premature prototyping","narrative instead of structure","tool-first design"],"scenarioType":"requirements analysis","crossModules":[1,2],"lastReviewDate":"2026-07-22","appearedInMocks":["CCAO-F Impossible Mock Test 01"]},{"id":6,"domain":5,"variant":"Configuration Mapping","selection":"single","question":"A client Project needs four recurring elements: (1) 'Do not state a number that is unsupported by an approved source'; (2) the current approved product catalog; (3) a seven-step monthly report-production method; and (4) the evolving list of decisions agreed with the client. Which mapping is correct?","options":{"A":"(1) standing instruction; (2) knowledge base; (3) account-level Skill; (4) Project-scoped Memory.","B":"(1) knowledge base; (2) Project-scoped Memory; (3) standing instruction; (4) account-level Skill.","C":"(1) account-level Skill; (2) standing instruction; (3) knowledge base; (4) global Chat history.","D":"Put all four in the knowledge base so the Project has one source of truth."},"correct":["A"],"rationale":"Behavioral rules belong in instructions, stable reference material in knowledge, repeatable multi-step procedures in Skills, and evolving decisions that carry continuity within one Project in scoped Memory.","optionExplanations":{"A":"Correct. It applies the rule-reference-procedure-continuity distinction to all four elements.","B":"Incorrect. It misplaces every element: behavior is not reference, catalog facts are not an evolving decision log, and a procedure is not a one-line instruction.","C":"Incorrect. It confuses mechanisms and loses the isolation provided by Project-scoped Memory.","D":"Incorrect. A single storage location is simpler only superficially; it makes behavior and procedures harder to maintain and less reliable."},"concept":"Right mechanism for rules, references, procedures, and continuity","lesson":"Configuring Projects","bloom":"Understand","difficulty":9,"confidence":"High","reference":"Course Notes > Configuration & Knowledge Management > Configuring Projects; Exam Guide v1.0, Section 6, Domain 5.","officialTerminology":["standing instructions","knowledge base","Skills","Project-scoped Memory"],"distractorPatterns":["wrong home","single-source simplification","scope confusion"],"scenarioType":"configuration design","crossModules":[3,7],"lastReviewDate":"2026-07-22","appearedInMocks":["CCAO-F Impossible Mock Test 01"]},{"id":7,"domain":2,"variant":"Root Cause","selection":"single","question":"Claude uses code execution to count active customer accounts and returns 18,204. The run is traceable, but the generated code filters out rows where status equals 'Closed' while the file also contains lowercase 'closed'. What is the correct conclusion?","options":{"A":"The result is guaranteed because code execution is deterministic; only prose outputs need validation.","B":"The run is reproducible but the filter is wrong; normalize the status values, rerun, and review the corrected result.","C":"The result is a prose hallucination because Claude wrote the code.","D":"Ask Claude to estimate how many lowercase rows exist and adjust 18,204 manually."},"correct":["B"],"rationale":"Code execution makes the calculation traceable and re-runnable, not automatically correct. Determinism attaches to executing the written logic; a case-sensitive filter is a reviewable logic defect that must be corrected and rerun.","optionExplanations":{"A":"Incorrect. Deterministic execution can reproduce the same wrong result when the code is wrong.","B":"Correct. It preserves the benefit of code execution while validating the logic and rerunning the computation.","C":"Incorrect. The result is computed, not prose-generated; its weakness is a code-logic bug, not lack of execution.","D":"Incorrect. A manual estimate abandons the traceable path when the data and code can be corrected directly."},"concept":"Deterministic computation versus correctness of generated code","lesson":"Choosing Output Formats: Code-Executed","bloom":"Apply","difficulty":9,"confidence":"High","reference":"Course Notes > Evaluating & Validating Claude's Output > Choosing Output Formats; Course Notes > Claude Platform & Model Foundations > Code Execution; Exam Guide v1.0, Section 6, Domain 2.","officialTerminology":["code execution","traceable","re-runnable","determinism"],"distractorPatterns":["determinism-equals-correctness","wrong failure type","manual workaround"],"scenarioType":"code validation","crossModules":[3,4,7],"lastReviewDate":"2026-07-22","appearedInMocks":["CCAO-F Impossible Mock Test 01"]},{"id":8,"domain":7,"variant":"Cheapest Correct Fix","selection":"single","question":"In a brand-new, short conversation, the first response to 'analyze our renewal data and tell leadership what matters' is generic. No standing configuration is involved. Which diagnostic move comes first?","options":{"A":"Upgrade immediately to Opus because shallow analysis proves the model tier is inadequate.","B":"Restart and paste the same prompt again; generic output can result from automatic summarization even when the visible thread is short, so a fresh context is the cheapest fix.","C":"Re-read the prompt against role, context, task, constraints, and format, then add the missing audience, decision, criteria, and desired output shape.","D":"Conclude that renewal analysis is not a fit for Claude and reshape the task manually."},"correct":["C"],"rationale":"A first-response failure in a short session points first to under-specification. The diagnostic sequence is cheapest-fix-first: inspect the prompt before context, feature/model, configuration, or task fit.","optionExplanations":{"A":"Incorrect. A model upgrade is more expensive and does not supply the missing business context or success criteria.","B":"Incorrect. Context overload degrades a session over time; it does not explain a generic first response in a short conversation.","C":"Correct. It follows the diagnostic order and addresses the timing signature of under-specification.","D":"Incorrect. Task-fit rejection is the last diagnostic conclusion, after cheaper causes have been ruled out."},"concept":"Symptom timing and cheapest-first diagnosis","lesson":"Diagnosing Underperforming Prompts & Outputs","bloom":"Apply","difficulty":8,"confidence":"High","reference":"Course Notes > Troubleshooting & Optimization > Diagnosing Underperforming Prompts & Outputs; Exam Guide v1.0, Section 6, Domain 7.","officialTerminology":["under-specification","diagnostic sequence","cheapest-fix-first"],"distractorPatterns":["premature model upgrade","wrong timing signature","premature task rejection"],"scenarioType":"troubleshooting","crossModules":[1,3],"lastReviewDate":"2026-07-22","appearedInMocks":["CCAO-F Impossible Mock Test 01"]},{"id":9,"domain":1,"variant":"Multiple Response","selection":"multi","answerCount":2,"question":"An associate is prompting Claude to research how three named competitors responded to a regulation that changed this month. Which TWO prompt choices most improve the reliability and usefulness of the research?","options":{"A":"Tell Claude it is the world's most authoritative competitive-intelligence analyst.","B":"Define the exact comparison question, time boundary, source expectations, and require checkable citations for each material claim.","C":"State the preferred conclusion so Claude can filter out evidence that does not support the business case.","D":"Ask the same vague question three times and treat agreement as proof.","E":"Explicitly permit 'not supported by the available sources' and require unverifiable claims to be flagged rather than estimated."},"correct":["B","E"],"rationale":"Research prompts need clear scope, current-source discipline, and auditable citations. Permitting uncertainty reduces pressure to invent an answer when current evidence is missing. Role inflation and repeated self-agreement do not ground claims, while prescribing the conclusion introduces confirmation bias.","optionExplanations":{"A":"Incorrect. Role hyperbole does not provide current evidence, boundaries, or verification.","B":"Correct. It tightens the elements that research requires: question, scope, sources, and citations.","C":"Incorrect. It biases the framing and undermines an open comparison.","D":"Incorrect. Best-of-N can expose soft spots, but agreement is not authoritative verification.","E":"Correct. Permission to acknowledge unsupported claims helps prevent fabricated specifics."},"concept":"Research prompting with source discipline and permission for uncertainty","lesson":"Adapting Strategy by Task Type","bloom":"Apply","difficulty":9,"confidence":"High","reference":"Course Notes > Prompting & Task Execution > Adapting Strategy by Task Type; Course Notes > Evaluating & Validating Claude's Output > Fact-Checking & Grounding; Exam Guide v1.0, Section 6, Domain 1.","officialTerminology":["Research","source discipline","auditable citations","permission to not know"],"distractorPatterns":["role inflation","confirmation bias","self-agreement as proof"],"scenarioType":"current research","crossModules":[2,3],"lastReviewDate":"2026-07-22","appearedInMocks":["CCAO-F Impossible Mock Test 01"]},{"id":10,"domain":6,"variant":"Assertion / Reason","selection":"single","question":"Assertion: Incognito mode can be appropriate for confidential-but-not-regulated analysis that should not enter Chat history or Memory. Reason: Incognito overrides the organization's data-retention policy and prevents the session from appearing in organizational data exports. Select the correct interpretation.","options":{"A":"Both the Assertion and Reason are true, and the Reason explains the Assertion.","B":"Both are true, but the Reason does not explain the Assertion.","C":"The Assertion is false, but the Reason is true.","D":"The Assertion is true, but the Reason is false."},"correct":["D"],"rationale":"Incognito excludes a standalone chat from Chat history and Memory, which can fit yellow-tier work where non-persistence is desired. It does not alter organizational retention and can still appear in organizational exports. Memory exclusion and data retention are distinct controls.","optionExplanations":{"A":"Incorrect. The Reason incorrectly claims that Incognito overrides retention and exports.","B":"Incorrect. The Reason is false, so both statements are not true.","C":"Incorrect. The Assertion describes the course's valid yellow-tier use, while the Reason is false.","D":"Correct. The non-persistence benefit is real, but the claimed retention override is not."},"concept":"Memory exclusion versus organizational retention","lesson":"Data Sensitivity, Privacy & Feature Controls","bloom":"Understand","difficulty":9,"confidence":"High","reference":"Course Notes > Governance, Risk & Responsible Use > Data Sensitivity, Privacy & Feature Controls; Exam Guide v1.0, Section 6, Domain 6.","officialTerminology":["Incognito mode","Memory persistence","data retention","organizational data exports"],"distractorPatterns":["control conflation","partially true assertion","retention assumption"],"scenarioType":"assertion-reason","crossModules":[3,5],"lastReviewDate":"2026-07-22","appearedInMocks":["CCAO-F Impossible Mock Test 01"]},{"id":11,"domain":4,"variant":"Workflow Analysis","selection":"single","question":"A capacity plan must combine 12 months of timesheet data, likely demand scenarios, a hiring freeze known only to leadership, and a recommendation. Which design best assigns the work?","options":{"A":"Compute utilization and scenarios with code execution, let Claude synthesize trade-offs, and keep the hiring decision with the accountable leader.","B":"Ask Claude in prose to estimate utilization and make the hiring decision so the workflow has one owner.","C":"Use code execution for utilization, then encode the hiring freeze, risk appetite, and approval rules in the same script so the recommendation remains fully reproducible.","D":"Keep all analysis human-owned because the final decision cannot be delegated."},"correct":["A"],"rationale":"The best workflow pairs computed analysis with Claude's synthesis while retaining contextual judgment and accountability with the human decision-maker. The fact that the final decision stays human does not remove value from delegating reversible analytical steps.","optionExplanations":{"A":"Correct. It separates computation, synthesis, and accountable judgment according to their strengths and risk.","B":"Incorrect. It generates rather than computes the metrics and improperly delegates the decision.","C":"Incorrect. Code execution verifies calculations; it does not own risk appetite, political context, or accountability.","D":"Incorrect. It confuses retaining the decision with retaining every reversible preparation step."},"concept":"Verified planning plus human-retained judgment","lesson":"Research, Planning & Process Optimization","bloom":"Apply","difficulty":9,"confidence":"High","reference":"Course Notes > Workflow Integration & Solution Design > Research, Planning & Process Optimization; Exam Guide v1.0, Section 6, Domain 4.","officialTerminology":["code execution","synthesis","human-retained","accountability"],"distractorPatterns":["over-delegation","tool overreach","all-or-nothing delegation"],"scenarioType":"capacity planning","crossModules":[2,3,6],"lastReviewDate":"2026-07-22","appearedInMocks":["CCAO-F Impossible Mock Test 01"]},{"id":12,"domain":2,"variant":"Spot the Mistake","selection":"single","question":"A manager prompts, 'Prove that the new attendance policy caused productivity to fall.' Claude produces a persuasive analysis supporting that conclusion. What is the strongest corrective action?","options":{"A":"Keep the analysis and request an editing pass that softens causal wording, separates facts from conclusions, and adds a general uncertainty disclaimer.","B":"Reframe neutrally, test whether productivity changed, require alternative explanations and missing evidence, and validate against the actual data.","C":"Run the same prompt with Opus; greater capability neutralizes the framing bias.","D":"Generate three supporting analyses and use the points on which they agree."},"correct":["B"],"rationale":"The prompt embeds the desired conclusion, inviting confirmation bias. A neutral question, explicit consideration of alternatives, and source validation address the cause. Changing tone, model, or number of runs does not remove the biased framing.","optionExplanations":{"A":"Incorrect. Tone is not the root cause; the prompt directs the conclusion.","B":"Correct. It removes the preferred answer, broadens the analysis, and grounds it in evidence.","C":"Incorrect. A more capable model can still follow a leading frame.","D":"Incorrect. Repeating the same biased request can reproduce the same bias rather than validate it."},"concept":"Confirmation bias in prompt framing","lesson":"Hallucinations, Inconsistencies & Bias","bloom":"Apply","difficulty":9,"confidence":"High","reference":"Course Notes > Evaluating & Validating Claude's Output > Hallucinations, Inconsistencies & Bias; Exam Guide v1.0, Section 6, Domain 2.","officialTerminology":["confirmation bias","framing","authoritative source"],"distractorPatterns":["tone-as-fix","model-as-fix","self-agreement"],"scenarioType":"bias diagnosis","crossModules":[1,6],"lastReviewDate":"2026-07-22","appearedInMocks":["CCAO-F Impossible Mock Test 01"]},{"id":13,"domain":3,"variant":"Choose the Best Answer","selection":"single","question":"A team prepares a risk update every Friday. The underlying portfolio and stakeholder expectations are stable, but the emphasis and exact output layout change occasionally. Is a Project justified?","options":{"A":"No. A Project is justified only when recurrence, stable context, and identical format are all present.","B":"No. Any variation in output format means the work belongs in standalone Chat.","C":"Yes. Recurrence and stable background satisfy two of the three Project tests; changing emphasis can still be specified per conversation or output.","D":"Yes, but only because Projects automatically merge the context of every conversation in the workspace."},"correct":["C"],"rationale":"The course's practical test is whether at least two of three conditions hold: recurring task, stable background, consistent output format. Recurrence and stable context are enough. Project conversations share configuration, not each other's thread context.","optionExplanations":{"A":"Incorrect. The threshold is two of the three conditions, not all three.","B":"Incorrect. Format variability reduces one benefit but does not erase the value of persistent background and instructions.","C":"Correct. It applies the two-of-three selection test and leaves variable requirements to each conversation.","D":"Incorrect. Conversations inside a Project do not automatically share thread context with each other."},"concept":"Two-of-three Project selection test","lesson":"Core Entry Points","bloom":"Understand","difficulty":8,"confidence":"High","reference":"Course Notes > Claude Platform & Model Foundations > Core Entry Points; Exam Guide v1.0, Section 6, Domain 3.","officialTerminology":["Project","recurrence","stable context","conversation history"],"distractorPatterns":["all-conditions fallacy","format absolutism","conversation-sharing confusion"],"scenarioType":"entry-point selection","crossModules":[5],"lastReviewDate":"2026-07-22","appearedInMocks":["CCAO-F Impossible Mock Test 01"]},{"id":14,"domain":5,"variant":"Root Cause","selection":"single","question":"A connected mail source can search and read messages but cannot send them. Claude says, 'I sent the approved summary to the account team,' yet no sent message exists. Which interpretation is most accurate?","options":{"A":"The action probably completed asynchronously; wait for synchronization, then ask Claude to search Sent mail as confirmation before redesigning the workflow.","B":"The Project's standing instructions prevented sending; remove them and retry.","C":"The connector needs a more capable model before write actions become available.","D":"The workflow crossed a read-only boundary; treat the send as unperformed and route it to a tool or person that can send."},"correct":["D"],"rationale":"Connectors have defined action boundaries. A claim to have performed an unsupported external action is not evidence of success; it is a capability hallucination. The step must be confirmed and assigned to a tool or human that can actually send.","optionExplanations":{"A":"Incorrect. There is no supported send operation to synchronize.","B":"Incorrect. Removing instructions cannot create a connector capability that does not exist.","C":"Incorrect. Model capability and connector permissions are separate layers.","D":"Correct. It identifies both the boundary and the required workflow correction."},"concept":"Connector capability boundaries","lesson":"Connectors & Uploaded Knowledge","bloom":"Remember","difficulty":8,"confidence":"High","reference":"Course Notes > Configuration & Knowledge Management > Connectors & Uploaded Knowledge; Course Notes > Evaluating & Validating Claude's Output > Capability Hallucination; Exam Guide v1.0, Section 6, Domain 5.","officialTerminology":["connector","capability boundary","capability hallucination"],"distractorPatterns":["silent synchronization","instruction-as-capability","model-permission confusion"],"scenarioType":"connector troubleshooting","crossModules":[2,7],"lastReviewDate":"2026-07-22","appearedInMocks":["CCAO-F Impossible Mock Test 01"]},{"id":15,"domain":6,"variant":"Multiple Response","selection":"multi","answerCount":2,"question":"A third-party 'meeting formatter' Skill comes from an unknown publisher. Its bundle includes instructions to inspect unrelated files and invoke code execution when a meeting note is opened. Which TWO responses best apply the course's trust framework?","options":{"A":"Enable it because formatting is inherently a low-risk task.","B":"Approve it if the installation screen lists no requested permissions.","C":"Audit the source, bundled instructions, dependencies, and what the Skill could reach in sessions where it runs; the mismatch between purpose and reach is a red flag.","D":"Do not enable it on personal authority; escalate for admin or security review, or decline if the source and disproportionate reach cannot be resolved.","E":"Reject every third-party Skill permanently, because trust evaluation cannot reduce risk."},"correct":["C","D"],"rationale":"Skills inherit the access available in their sessions rather than requesting an isolated permission set. The source-reach-purpose mismatch requires inspection and prevents self-enablement. The appropriate outcome is escalation or decline, not blind trust or a blanket ban on all third-party Skills.","optionExplanations":{"A":"Incorrect. A benign label does not limit what the bundled procedure can access or do.","B":"Incorrect. Skills do not rely on a conventional permission request to define their reach.","C":"Correct. It applies Source, Reach, and Appropriateness and recognizes over-broad instructions as evidence.","D":"Correct. The unresolved unknown source and broad reach exceed the associate's authority to enable directly.","E":"Incorrect. The framework explicitly supports Enable, Escalate, or Decline based on evidence rather than a blanket ban."},"concept":"Skill Source, Reach, and Appropriateness trust check","lesson":"Skill Trust & Feature-Level Risk","bloom":"Analyze","difficulty":10,"confidence":"High","reference":"Course Notes > Governance, Risk & Responsible Use > Skill Trust & Feature-Level Risk; Exam Guide v1.0, Section 6, Domain 6.","officialTerminology":["Source","Reach","Appropriateness","Enable","Escalate","Decline"],"distractorPatterns":["benign-label bias","permission-model confusion","blanket prohibition"],"scenarioType":"Skill trust evaluation","crossModules":[3,5],"lastReviewDate":"2026-07-22","appearedInMocks":["CCAO-F Impossible Mock Test 01"]},{"id":16,"domain":2,"variant":"Root Cause","selection":"single","question":"Claude ranks four vendors correctly from the supplied scoring sheet, but the recommendation shows neither the criterion weights nor the reasoning behind the ranking, and two cost figures have no currency units. The prompt requested a defensible recommendation for procurement review. How should the output be classified?","options":{"A":"It fails the requirements and professional-standards checks: add traceable weights, decision reasoning, and units before procurement relies on it.","B":"It passes because the order matches the scoring sheet; procurement can reconstruct weights from the source if challenged, while units and reasoning can be added after selection.","C":"It requires human override solely because any vendor recommendation is non-delegable.","D":"It is a fabricated-specifics failure because the cost figures are missing units."},"correct":["A"],"rationale":"Discernment checks requirements, source material, and professional standards separately. A correct ordering is not yet a defensible recommendation when required reasoning is absent and material numbers lack units. The specific gaps are correctable, so the output needs revision.","optionExplanations":{"A":"Correct. It identifies both the unmet request and field-standard defects and specifies the repair.","B":"Incorrect. Correct source extraction does not excuse missing reasoning or ambiguous units.","C":"Incorrect. Human review may still be required by stakes, but the scenario's stated output defect is specific and revisable rather than categorically non-delegable.","D":"Incorrect. Missing units are a professional-standards failure; they do not prove that Claude invented the numbers."},"concept":"Professional standards as an independent evaluation reference","lesson":"Discernment: Accuracy & Completeness","bloom":"Apply","difficulty":8,"confidence":"High","reference":"Course Notes > Evaluating & Validating Claude's Output > Discernment: Accuracy & Completeness; Exam Guide v1.0, Section 6, Domain 2.","officialTerminology":["requirements","source material","professional standards","needs revision"],"distractorPatterns":["correct-order halo","wrong escalation","wrong failure type"],"scenarioType":"professional-standards review","crossModules":[1,4],"lastReviewDate":"2026-07-22","appearedInMocks":["CCAO-F Impossible Mock Test 01"]},{"id":17,"domain":1,"variant":"Next Best Step","selection":"single","question":"A proposal draft is accurate, well structured, and on length. Only its final recommendation sounds defensive. What is the best next prompt?","options":{"A":"Rewrite the entire proposal with a more confident voice and a different structure.","B":"Keep the analysis and structure unchanged. Rewrite only the final recommendation in a calm, accountable tone, preserving its facts and requested action.","C":"Regenerate the proposal in a new conversation so no earlier wording influences the result.","D":"Switch to Opus, regenerate only the final recommendation without new tone instructions, and keep whichever version sounds most confident so the proposal benefits from higher capability."},"correct":["B"],"rationale":"The output itself identifies a narrow defect. Targeted iteration changes the failed component or section while retaining everything that already works, making the effect of the revision observable.","optionExplanations":{"A":"Incorrect. Wholesale rewriting discards working content and confounds which change helped.","B":"Correct. It makes one precise change and preserves the successful draft.","C":"Incorrect. A new conversation removes useful context without addressing the localized tone instruction.","D":"Incorrect. A tone constraint is a cheaper and better matched fix than a model change."},"concept":"Targeted iteration","lesson":"Iterating to Improve Output","bloom":"Apply","difficulty":8,"confidence":"High","reference":"Course Notes > Prompting & Task Execution > Iterating to Improve Output; Exam Guide v1.0, Section 6, Domain 1.","officialTerminology":["targeted revision","output deficiencies as diagnostics","diminishing returns"],"distractorPatterns":["wholesale rewrite","unnecessary restart","premature model change"],"scenarioType":"prompt iteration","crossModules":[7],"lastReviewDate":"2026-07-22","appearedInMocks":["CCAO-F Impossible Mock Test 01"]},{"id":18,"domain":4,"variant":"Workflow Analysis","selection":"single","question":"In a contract workflow, Claude accurately extracted obligations for six weeks. The team then allowed it to approve 'routine' deviations without review because the extraction step had performed well. Which diagnosis is most precise?","options":{"A":"The workflow is efficient because repeated extraction accuracy establishes a performance baseline; retain periodic sample audits while routine approvals proceed.","B":"The problem is merely that the team should use Opus for approvals.","C":"This is halo delegation: success at reversible extraction was used to justify a higher-stakes approval step that must be assessed separately.","D":"This is context overload because six weeks of use filled the conversation window."},"correct":["C"],"rationale":"Each workflow step must be mapped independently against reversibility, stakes, and accountability. Good extraction does not transfer authority to approve deviations. Letting the earlier success justify the later delegation is halo delegation.","optionExplanations":{"A":"Incorrect. Performance on one step does not change the risk profile or accountability of another.","B":"Incorrect. A model upgrade cannot transfer approval accountability.","C":"Correct. It identifies the mapping error and why the approval step requires human involvement.","D":"Incorrect. The issue is the design of delegated ownership, not deterioration within a long conversation."},"concept":"Halo delegation and step-level mapping","lesson":"Delegation Mapping","bloom":"Analyze","difficulty":9,"confidence":"High","reference":"Course Notes > Workflow Integration & Solution Design > Delegation Mapping; Exam Guide v1.0, Section 6, Domain 4.","officialTerminology":["halo delegation","reversibility","stakes","accountability"],"distractorPatterns":["performance transfer","model substitution","wrong root cause"],"scenarioType":"workflow governance","crossModules":[2,6],"lastReviewDate":"2026-07-22","appearedInMocks":["CCAO-F Impossible Mock Test 01"]},{"id":19,"domain":7,"variant":"Root Cause","selection":"single","question":"A monthly report workflow worked reliably until the organization replaced its reporting policy. New conversations are short, the prompt is unchanged, and the same custom Skill still generates the old section order. What is the most likely root cause and fix?","options":{"A":"Under-specification: add the revised policy and new section order to each monthly prompt while retaining the existing Project and Skill to avoid unnecessary changes.","B":"Context overload; restart each already-short conversation.","C":"Wrong model; use Opus to infer the new policy automatically.","D":"Stale configuration: update approved sources and instructions, revise and re-upload the custom Skill if needed, then retest."},"correct":["D"],"rationale":"The 'used to work' timing signature, combined with an outdated policy and custom procedure, points to stale configuration. Custom-uploaded Skills change only when re-uploaded, and knowledge and instructions must also be curated.","optionExplanations":{"A":"Incorrect. Repeating new policy context manually treats a configuration problem as a prompt problem.","B":"Incorrect. The chats are short and the failure began after a source change, not after context accumulation.","C":"Incorrect. A model cannot infer a policy it has not been given, and model choice does not update a custom Skill.","D":"Correct. It matches the timing signature and updates every configuration mechanism affected by the policy change."},"concept":"Used-to-work signature of stale configuration","lesson":"Diagnosing Underperforming Prompts & Outputs","bloom":"Analyze","difficulty":9,"confidence":"High","reference":"Course Notes > Troubleshooting & Optimization > Diagnosing Underperforming Prompts & Outputs; Course Notes > Configuration & Knowledge Management > Maintaining Configurations; Exam Guide v1.0, Section 6, Domain 7.","officialTerminology":["stale configuration","custom-uploaded Skill","maintenance"],"distractorPatterns":["prompt patch","wrong timing signature","model inference"],"scenarioType":"configuration troubleshooting","crossModules":[3,5],"lastReviewDate":"2026-07-22","appearedInMocks":["CCAO-F Impossible Mock Test 01"]},{"id":20,"domain":2,"variant":"Audience Adaptation","selection":"single","question":"One verified incident analysis must become an executive brief and an operations-team handoff. Which transformation is correct?","options":{"A":"Keep the verified facts constant; lead the executive version with impact and decisions, while the operations version retains method, owners, and next steps in a more detailed format.","B":"Give executives the full method to prove rigor, and remove it from the operations version to save time.","C":"Preserve the complete verified analysis in both versions and vary only the tone; changing which facts, methodology, or detail appear would create inconsistency between deliverables.","D":"Use the same text for both audiences and change only the title so no inconsistency can enter."},"correct":["A"],"rationale":"Audience adaptation changes selection, depth, tone, and formatting without changing underlying facts. Executives need decision and impact; working teams need method and action detail.","optionExplanations":{"A":"Correct. It preserves factual integrity while fitting each audience's use of the information.","B":"Incorrect. It reverses the typical information needs of executive and working audiences.","C":"Incorrect. Factual consistency does not require identical selection and depth; the executive and operations audiences need different detail while the facts stay fixed.","D":"Incorrect. Identical text avoids adaptation and makes at least one version less usable."},"concept":"Same facts, audience-specific selection, depth, tone, and format","lesson":"Editing & Adapting for Audience","bloom":"Understand","difficulty":8,"confidence":"High","reference":"Course Notes > Evaluating & Validating Claude's Output > Editing & Adapting for Audience; Exam Guide v1.0, Section 6, Domain 2.","officialTerminology":["audience calibration","clarity","tone","formatting"],"distractorPatterns":["audience reversal","facts-as-variable","no adaptation"],"scenarioType":"audience transformation","crossModules":[1,4],"lastReviewDate":"2026-07-22","appearedInMocks":["CCAO-F Impossible Mock Test 01"]},{"id":21,"domain":5,"variant":"Choose the Best Answer","selection":"single","question":"A Project supports a product launch. The approved brand palette rarely changes, while the team keeps deciding new spokesperson names, launch priorities, and standing preferences during weekly conversations. Where should these two kinds of information live?","options":{"A":"Put both in standing instructions because every conversation needs them.","B":"Put the stable palette in the knowledge base and the evolving decisions in Project-scoped Memory.","C":"Put the palette in scoped Memory and the evolving decisions in the knowledge base.","D":"Put both in a Skill because they influence a repeatable launch process."},"correct":["B"],"rationale":"The mechanism depends on information type. Stable reference facts belong in knowledge; an evolving record of decisions and preferences belongs in scoped Memory. Instructions govern behavior and Skills carry procedures.","optionExplanations":{"A":"Incorrect. These are facts and evolving context, not rules describing how Claude should behave.","B":"Correct. It applies the stable-reference versus evolving-continuity distinction.","C":"Incorrect. It reverses the roles of knowledge and scoped Memory.","D":"Incorrect. A Skill defines repeatable steps; it is not the primary store for facts or decision history."},"concept":"Stable reference versus evolving Project continuity","lesson":"Configuring Projects","bloom":"Understand","difficulty":8,"confidence":"High","reference":"Course Notes > Configuration & Knowledge Management > Configuring Projects > Scoped Memory as a first-class mechanism; Exam Guide v1.0, Section 6, Domain 5.","officialTerminology":["knowledge base","Project-scoped Memory","standing instructions","Skills"],"distractorPatterns":["wrong home","knowledge-memory inversion","procedure confusion"],"scenarioType":"knowledge management","crossModules":[3],"lastReviewDate":"2026-07-22","appearedInMocks":["CCAO-F Impossible Mock Test 01"]},{"id":22,"domain":6,"variant":"Multiple Response","selection":"multi","answerCount":2,"question":"Claude helps summarize interview notes for a hiring panel. Which TWO practices best implement the course's ethics guidance?","options":{"A":"Review whether the prompt framing or output favors a demographic proxy and restate observations in job-relevant, evidence-based terms.","B":"Assume the output is neutral if Claude was not given age, gender, or ethnicity fields.","C":"Follow the applicable disclosure rule and, when the obligation is genuinely unclear, default to disclosure rather than concealment.","D":"Run a separate ethics exercise only after the panel has made its decision, so routine review remains objective.","E":"Remove humans from the comparison step to prevent human bias from entering the result."},"correct":["A","C"],"rationale":"Bias can enter through language, framing, and proxies even when protected fields are absent, so fairness review belongs in the normal workflow. Transparency depends on context and policy; where genuinely unclear, responsible practice favors disclosure.","optionExplanations":{"A":"Correct. It checks both framing and outcome and keeps the assessment tied to relevant evidence.","B":"Incorrect. Omission of explicit protected fields does not eliminate proxy or framing bias.","C":"Correct. It applies the course's context-sensitive disclosure rule and responsible default.","D":"Incorrect. Ethics review belongs inside routine output evaluation, before consequential decisions.","E":"Incorrect. AI can also carry bias, and accountability for people-facing decisions remains human."},"concept":"Bias, fairness, and transparency in routine review","lesson":"Ethical Implications","bloom":"Apply","difficulty":9,"confidence":"High","reference":"Course Notes > Governance, Risk & Responsible Use > Ethical Implications: Bias, Fairness, Transparency; Exam Guide v1.0, Section 6, Domain 6.","officialTerminology":["bias","fairness","transparency","disclosure"],"distractorPatterns":["neutrality assumption","ethics as afterthought","human removal"],"scenarioType":"hiring governance","crossModules":[2,4],"lastReviewDate":"2026-07-22","appearedInMocks":["CCAO-F Impossible Mock Test 01"]},{"id":23,"domain":3,"variant":"Model Mapping","selection":"single","question":"Which model-tier mapping follows the certification's pinned Haiku/Sonnet/Opus decision frame?","options":{"A":"Haiku for ambiguous board strategy; Sonnet for bulk field extraction; Opus for routine reformatting.","B":"Haiku for internal bulk tasks, Sonnet for normal external drafting, and Opus whenever results face executives or regulators, regardless of task complexity.","C":"Haiku for structured volume, Sonnet for most professional work, and Opus for nuanced high-stakes judgment where quality outranks speed.","D":"Use Opus by default for every task, because lower tiers are intended only for testing."},"correct":["C"],"rationale":"The course maps Haiku to efficient structured volume, Sonnet to the balanced default for most knowledge work, and Opus to complex, ambiguous, high-stakes reasoning. Selection is based on task profile rather than internal/external labels alone.","optionExplanations":{"A":"Incorrect. It reverses the speed-capability fit across all three tiers.","B":"Incorrect. Audience alone does not determine the model, and code execution is a capability layer rather than a reason to reserve Opus.","C":"Correct. It reproduces the course's task-to-tier decision logic.","D":"Incorrect. Always using the highest tier wastes speed and usage headroom on routine work."},"concept":"Speed-capability trade-off across model tiers","lesson":"Choosing Models","bloom":"Remember","difficulty":8,"confidence":"High","reference":"Course Notes > Claude Platform & Model Foundations > Choosing Models; Exam Guide v1.0, Section 6, Domain 3.","officialTerminology":["Haiku","Sonnet","Opus","speed-capability trade-off"],"distractorPatterns":["tier reversal","audience-only selection","always-top-model"],"scenarioType":"model selection","crossModules":[4],"lastReviewDate":"2026-07-22","appearedInMocks":["CCAO-F Impossible Mock Test 01"]},{"id":24,"domain":4,"variant":"Escalation Boundary","selection":"single","question":"A team iterates a web Artifact into a useful internal tracker. Other departments now want to depend on it for daily operations, single sign-on, audit logs, guaranteed availability, and integration with production systems. What is the associate's next best step?","options":{"A":"Keep prompting the Artifact until each enterprise requirement appears to work in a demo.","B":"Convert the requirements into standing instructions so Claude maintains uptime automatically.","C":"Use Opus for the final iteration, since capability tier determines production readiness.","D":"Document the prototype and requirements, then escalate the dependent system design to Claude Developer or Architect expertise."},"correct":["D"],"rationale":"A small internal Artifact can be an Associate-level solution. Once others rely on it as infrastructure with security, integration, and uptime requirements, it crosses into technical implementation and architecture scope.","optionExplanations":{"A":"Incorrect. A convincing prototype does not satisfy production security, integration, or reliability obligations.","B":"Incorrect. Instructions guide behavior; they cannot provide infrastructure guarantees.","C":"Incorrect. Model quality does not convert a prototype into a governed production system.","D":"Correct. It preserves the validated learning and hands the system-level work to the appropriate role."},"concept":"Associate-to-Developer/Architect escalation boundary","lesson":"Solution Design, Development & Iteration","bloom":"Apply","difficulty":9,"confidence":"High","reference":"Course Notes > Workflow Integration & Solution Design > Solution Design, Development & Iteration; Course Summary > Knowing your boundary; Exam Guide v1.0, Section 6, Domain 4.","officialTerminology":["Artifact","Associate scope","Claude Developer","Claude Architect"],"distractorPatterns":["prototype-equals-production","instruction overreach","model overreach"],"scenarioType":"scope escalation","crossModules":[3,6],"lastReviewDate":"2026-07-22","appearedInMocks":["CCAO-F Impossible Mock Test 01"]},{"id":25,"domain":2,"variant":"Failure Pattern Analysis","selection":"single","question":"A market brief states that '73.4% of mid-sized manufacturers adopted AI inspection in 2026' and cites an industry report. The link opens the publisher's homepage, the named report contains no such survey, and no other source supports the number. Which classification and response are correct?","options":{"A":"Fabricated specific with an unauditable citation: verify it against an authoritative source or remove or qualify it, then audit similar precise claims.","B":"Capability hallucination: the publisher's homepage failed to perform an external action.","C":"Internal contradiction: retain the statistic but rewrite the citation to acknowledge that the report and landing page differ, then flag the discrepancy for readers.","D":"Confirmation bias: the exact percentage is reliable once the prompt is restated neutrally."},"correct":["A"],"rationale":"The precision, absent source support, and non-traceable citation match the fabricated-specific pattern. The material claim must be validated externally or removed, and the failure is a signal to audit similar precise claims rather than merely edit the citation style.","optionExplanations":{"A":"Correct. It identifies the fabricated specific and applies authoritative validation rather than cosmetic repair.","B":"Incorrect. Capability hallucination concerns unsupported actions or abilities, not a false statistic inside a brief.","C":"Incorrect. No two parts of the output conflict; the problem is that the cited evidence does not contain the claim.","D":"Incorrect. Neutral framing is useful for bias, but it cannot make an unsupported number reliable."},"concept":"Fabricated specifics and unauditable citations","lesson":"Hallucinations, Inconsistencies & Bias","bloom":"Analyze","difficulty":9,"confidence":"High","reference":"Course Notes > Evaluating & Validating Claude's Output > Hallucinations, Inconsistencies & Bias and Fact-Checking & Grounding; Exam Guide v1.0, Section 6, Domain 2.","officialTerminology":["fabricated specific","auditable citation","authoritative source"],"distractorPatterns":["wrong failure type","citation-style repair","neutrality-as-verification"],"scenarioType":"claim validation","crossModules":[1,3],"lastReviewDate":"2026-07-22","appearedInMocks":["CCAO-F Impossible Mock Test 01"]},{"id":26,"domain":1,"variant":"Spot the Mistake","selection":"single","question":"A brainstorm prompt demands exactly three campaign ideas, each using the same six headings, all feasible within the existing budget, pre-ranked by expected conversion, and with no idea outside current channels. The results are repetitive. What change best addresses the task-type mismatch?","options":{"A":"Add a more prestigious creative-director role and keep every constraint.","B":"Keep the goal and essential guardrails, request greater volume and range without ranking, then evaluate in a later step.","C":"Switch to analysis: define conversion, budget, and channel-fit criteria, score the three concepts, and generate only the top-ranked option.","D":"Shorten every idea to one sentence while preserving the same limits."},"correct":["B"],"rationale":"Brainstorming needs high latitude and divergence before narrowing. The prompt uses evaluation-stage constraints during generation. Retaining the goal and true guardrails while loosening quantity and direction restores range; ranking follows later.","optionExplanations":{"A":"Incorrect. A role label does not offset constraints that suppress divergence.","B":"Correct. It separates idea generation from later evaluation and matches the brainstorming strategy.","C":"Incorrect. It removes the divergent phase entirely and is unlikely to surface varied options.","D":"Incorrect. Shorter wording changes presentation, not the over-constrained search space."},"concept":"Latitude during brainstorming and delayed evaluation","lesson":"Adapting Strategy by Task Type","bloom":"Analyze","difficulty":9,"confidence":"High","reference":"Course Notes > Prompting & Task Execution > Adapting Strategy by Task Type; Exam Guide v1.0, Section 6, Domain 1.","officialTerminology":["brainstorming","goal and guardrails","quantity and direction","creative latitude"],"distractorPatterns":["role inflation","premature convergence","format-only fix"],"scenarioType":"prompt diagnosis","crossModules":[4],"lastReviewDate":"2026-07-22","appearedInMocks":["CCAO-F Impossible Mock Test 01"]},{"id":27,"domain":6,"variant":"Least Appropriate Action","selection":"single","question":"An analyst is unsure whether a file containing customer bank-account numbers is yellow-tier or red-tier under a newly revised policy. Which action is LEAST appropriate?","options":{"A":"Treat it as the more sensitive tier while seeking confirmation from the appropriate policy owner.","B":"Determine whether the task can proceed with the bank details removed or replaced by non-identifying tokens.","C":"Upload the original file in Incognito because non-persistence resolves uncertainty about policy classification.","D":"Wait for confirmation of an approved entry point before uploading any unredacted restricted fields."},"correct":["C"],"rationale":"When classification is uncertain, treat the data as more sensitive until confirmed. Incognito changes history and Memory behavior, not whether the data is authorized for upload. Redaction or waiting for an approved path are proportionate alternatives.","optionExplanations":{"A":"Incorrect as the requested choice. This is the safe default when tiers are uncertain.","B":"Incorrect as the requested choice. Data minimization may preserve analytical value while eliminating the sensitive field.","C":"Correct as the least appropriate action. It mistakes a persistence control for policy authorization.","D":"Incorrect as the requested choice. Red data should not be uploaded until an approved path is confirmed."},"concept":"Conservative classification under uncertainty","lesson":"Data Sensitivity, Privacy & Feature Controls","bloom":"Understand","difficulty":9,"confidence":"High","reference":"Course Notes > Governance, Risk & Responsible Use > Data Sensitivity, Privacy & Feature Controls; Exam Guide v1.0, Section 6, Domain 6.","officialTerminology":["data classification","Incognito mode","approved entry point","redaction"],"distractorPatterns":["reverse logic","wrong control","privacy-policy conflation"],"scenarioType":"least appropriate action","crossModules":[3,5],"lastReviewDate":"2026-07-22","appearedInMocks":["CCAO-F Impossible Mock Test 01"]},{"id":28,"domain":5,"variant":"Feature Boundary","selection":"single","question":"A team is configuring several client Projects and wants one report-production procedure to be available wherever that task occurs. Which statement correctly describes where Skills fit relative to Projects?","options":{"A":"Every Skill is stored inside one Project and cannot apply outside it.","B":"A Project's knowledge base automatically becomes a Skill when the same task is repeated.","C":"Scoped Memory should hold the account-level procedure because it follows users across conversations, while Skills should store decisions inside each client Project.","D":"Skills are account-level reusable procedures; Projects provide workstream instructions, knowledge, conversations, and scoped continuity."},"correct":["D"],"rationale":"Skills live at the account level and describe repeatable procedures. Projects supply workstream context through instructions, knowledge, conversations, and scoped Memory. Repetition does not automatically transform one mechanism into another.","optionExplanations":{"A":"Incorrect. A custom Skill is reusable across Projects and standalone conversations.","B":"Incorrect. Knowledge remains reference material; procedures must be deliberately created as Skills.","C":"Incorrect. It reverses the procedure and continuity roles of Skills and scoped Memory.","D":"Correct. It accurately separates the account-level procedure layer from Project configuration."},"concept":"Account-level Skills versus Project configuration","lesson":"Configuring Projects","bloom":"Remember","difficulty":8,"confidence":"High","reference":"Course Notes > Configuration & Knowledge Management > Configuring Projects; Course Notes > Claude Platform & Model Foundations > Capability Layer; Exam Guide v1.0, Section 6, Domain 5.","officialTerminology":["Skills","Project","standing instructions","knowledge base","scoped Memory"],"distractorPatterns":["scope inversion","automatic conversion","procedure-continuity confusion"],"scenarioType":"configuration boundary","crossModules":[3],"lastReviewDate":"2026-07-22","appearedInMocks":["CCAO-F Impossible Mock Test 01"]},{"id":29,"domain":7,"variant":"Optimization Diagnosis","selection":"single","question":"Four team members run the same weekly report. They use the same source files, but each manually remembers the section order and verification steps, producing visibly different outputs. Which optimization most directly addresses the dominant signal?","options":{"A":"Encode the report procedure in a shared Skill, keep verification rules in standing instructions, and test cross-user consistency.","B":"Ask each person to write a longer one-off prompt in their own style.","C":"Use Memory to learn the sequence from the most experienced user, then let each team member's Project history gradually converge on the same procedure.","D":"Switch everyone to Opus and measure only time saved."},"correct":["A"],"rationale":"Different results across people are a variance signal. A shared procedure and shared rules remove reliance on personal recall. The optimized setup should be tested for the metric that matters here - consistency and verification quality - before full adoption.","optionExplanations":{"A":"Correct. It maps procedure and rule to their proper homes and validates the intended gain.","B":"Incorrect. Personal prompts preserve the source of variance rather than removing it.","C":"Incorrect. Memory is per-user and best-effort, not a deliberate shared team procedure.","D":"Incorrect. A model change does not standardize the procedure, and time is not the only relevant metric."},"concept":"Variance as optimization friction","lesson":"Optimizing Workflows","bloom":"Analyze","difficulty":9,"confidence":"High","reference":"Course Notes > Troubleshooting & Optimization > Optimizing Workflows; Exam Guide v1.0, Section 6, Domain 7.","officialTerminology":["variance","shared Skill","standing instructions","measure the improvement"],"distractorPatterns":["personal workaround","Memory overreach","model-as-process-fix"],"scenarioType":"workflow optimization","crossModules":[3,5],"lastReviewDate":"2026-07-22","appearedInMocks":["CCAO-F Impossible Mock Test 01"]},{"id":30,"domain":2,"variant":"Multiple Response","selection":"multi","answerCount":2,"question":"Claude analyzes a newly issued regulation that will affect a filing. Which TWO practices provide the strongest grounding for the material conclusions?","options":{"A":"Ask Claude to rate its confidence for every conclusion and accept conclusions above 90%. ","B":"First extract the exact passages that bear on each conclusion, then base the analysis on those passages.","C":"Run the same analysis three times and treat agreement as conclusive verification.","D":"Trace the conclusions and citations to the official regulation or another authoritative primary source, with qualified human review before filing.","E":"Improve the prose until it sounds appropriately cautious."},"correct":["B","D"],"rationale":"Quote-first analysis exposes the evidence chain, while checking against the authoritative regulation and retaining qualified review supplies genuine external validation. Self-confidence, repeated generation, and cautious tone are not substitutes for grounding.","optionExplanations":{"A":"Incorrect. Self-reported confidence is not an accuracy measure.","B":"Correct. Quote-grounding makes the source basis and reasoning auditable.","C":"Incorrect. Best-of-N can reveal disagreement, but agreement is not proof.","D":"Correct. It uses an authoritative source and applies the regulatory review threshold.","E":"Incorrect. Hedged wording can still contain unsupported or wrong claims."},"concept":"Quote-grounding and authoritative validation","lesson":"Fact-Checking & Grounding","bloom":"Apply","difficulty":9,"confidence":"High","reference":"Course Notes > Evaluating & Validating Claude's Output > Fact-Checking & Grounding and Diligence; Exam Guide v1.0, Section 6, Domain 2.","officialTerminology":["quote first, then analyze","authoritative source","auditable citation","human review"],"distractorPatterns":["self-confidence","best-of-N as proof","tone-as-validation"],"scenarioType":"regulatory validation","crossModules":[1,6],"lastReviewDate":"2026-07-22","appearedInMocks":["CCAO-F Impossible Mock Test 01"]},{"id":31,"domain":4,"variant":"Spot the Mistake","selection":"single","question":"A workflow is documented as 'Claude drafts the customer refund decision; a manager reviews it.' In practice, requests auto-approve after four hours if no manager opens the queue, and the review queue is not staffed on weekends. How should the step be classified?","options":{"A":"Collaborative, because the workflow document names a manager review.","B":"Effectively automated: an unstaffed review gate that expires into approval is not collaborative.","C":"Human-retained, because the manager remains formally accountable and the monthly audit can correct approvals that should not have passed.","D":"AI-appropriate, because the four-hour delay makes the action reversible."},"correct":["B"],"rationale":"A review gate exists only if a reviewer actually performs it before the action. Auto-approval converts the step into AI automation during unattended periods. Accountability remaining with a manager makes the missing control more serious, not less.","optionExplanations":{"A":"Incorrect. Documentation does not make an unstaffed gate operational.","B":"Correct. It identifies the course's 'collaborative collapsed into automate' failure.","C":"Incorrect. Accountability can remain human while execution is improperly automated.","D":"Incorrect. Waiting four hours does not make a completed refund automatically reversible or low-stakes."},"concept":"Collaborative step collapsing into automation","lesson":"Delegation Mapping","bloom":"Analyze","difficulty":10,"confidence":"High","reference":"Course Notes > Workflow Integration & Solution Design > Delegation Mapping > Common mapping errors; Exam Guide v1.0, Section 6, Domain 4.","officialTerminology":["collaborative","review gate","automated step","accountability"],"distractorPatterns":["paper-control bias","accountability-execution confusion","false reversibility"],"scenarioType":"control design","crossModules":[6],"lastReviewDate":"2026-07-22","appearedInMocks":["CCAO-F Impossible Mock Test 01"]},{"id":32,"domain":1,"variant":"Context-Aware Decomposition","selection":"single","question":"A long vendor-evaluation conversation has produced verified weighted criteria, but Claude has begun forgetting early constraints just before the dependent scoring step. What is the best way to preserve the dependency without carrying forward the degraded session?","options":{"A":"Keep scoring in the same conversation because preserving dependency should take priority over the observed context degradation.","B":"Start a blank Chat and ask Claude to reconstruct the criteria from Memory.","C":"Summarize the verified criteria, decisions, sources, and open questions; restart in the Project and score from that state.","D":"Skip scoring and ask for the final recommendation before more context is lost."},"correct":["C"],"rationale":"Dependent steps should retain their verified intermediate result, but a degraded context window should not be extended indefinitely. Summarizing the state and restarting within the configured Project preserves what the next step needs while restoring a clean context budget.","optionExplanations":{"A":"Incorrect. Dependency favors continuity, but context degradation is an explicit reason to restart from a summary.","B":"Incorrect. Memory is best-effort and should not be asked to reconstruct a precise verified scoring basis.","C":"Correct. It preserves the checkable foundation and replaces the degraded conversation state.","D":"Incorrect. It bypasses the auditable scoring step and compounds the context problem into the recommendation."},"concept":"Decomposition across a context reset","lesson":"Task Decomposition","bloom":"Analyze","difficulty":10,"confidence":"High","reference":"Course Notes > Prompting & Task Execution > Task Decomposition > One conversation or several; Course Notes > Claude Platform & Model Foundations > Context Management; Exam Guide v1.0, Section 6, Domain 1.","officialTerminology":["checkable intermediate result","context degradation","summarize","restart"],"distractorPatterns":["dependency absolutism","Memory as exact store","skip-the-foundation"],"scenarioType":"long-session decomposition","crossModules":[3,5,7],"lastReviewDate":"2026-07-22","appearedInMocks":["CCAO-F Impossible Mock Test 01"]},{"id":33,"domain":6,"variant":"Use-Case Classification","selection":"single","question":"A proposed system would read employee performance files, decide who should be laid off, generate each person's explanation, and send it without human review. Which classification and rationale best fit the governance framework?","options":{"A":"Fully appropriate because structured performance files make the decision auditable.","B":"Appropriate with delayed human review: let Claude decide and send, then require HR to inspect a sample and reverse decisions when evidence is weak.","C":"Appropriate if Opus is used and the explanations are empathetic.","D":"Inappropriate as designed: consequence, irreversibility, empathy, and non-transferable accountability require authorized HR and leadership ownership."},"correct":["D"],"rationale":"The use case fails multiple screening criteria simultaneously: high consequence, practical irreversibility, a strong human-element requirement, and non-transferable accountability. The governance deliverable is an explicit rationale and the human roles that must own it.","optionExplanations":{"A":"Incorrect. Auditability of inputs does not neutralize consequence, empathy, or accountability.","B":"Incorrect. Review after an irreversible communication is not a meaningful gate.","C":"Incorrect. Model capability and empathetic wording do not transfer authority for employment decisions.","D":"Correct. It applies all four use-case criteria and names the retained human ownership."},"concept":"Use-case screening with the Delegation criteria","lesson":"Appropriate vs Inappropriate Use Cases","bloom":"Analyze","difficulty":9,"confidence":"High","reference":"Course Notes > Governance, Risk & Responsible Use > Appropriate vs Inappropriate Use Cases; Exam Guide v1.0, Section 6, Domain 6.","officialTerminology":["reversibility","consequence of error","human creativity or empathy","accountability","inappropriate"],"distractorPatterns":["auditability substitution","review-after-action","model-as-governance"],"scenarioType":"use-case screening","crossModules":[2,4],"lastReviewDate":"2026-07-22","appearedInMocks":["CCAO-F Impossible Mock Test 01"]},{"id":34,"domain":3,"variant":"Assertion / Reason","selection":"single","question":"Assertion: Two conversations inside the same Project inherit the Project's standing instructions and knowledge base but do not automatically share their conversational context. Reason: Project configuration persists across the workspace, while each conversation maintains its own thread. Select the correct interpretation.","options":{"A":"Both the Assertion and Reason are true, and the Reason explains the Assertion.","B":"Both are true, but the Reason does not explain the Assertion.","C":"The Assertion is true, but the Reason is false.","D":"The Assertion is false, but the Reason is true."},"correct":["A"],"rationale":"Projects provide deliberate shared configuration, not a single merged conversation. Each thread starts with the same Project instructions and knowledge while retaining its own conversational state. The reason directly explains the assertion.","optionExplanations":{"A":"Correct. Both statements accurately distinguish persistent Project configuration from thread-specific context.","B":"Incorrect. The distinction in the Reason is exactly why the Assertion holds.","C":"Incorrect. The Reason accurately describes the product boundary.","D":"Incorrect. The Assertion is also accurate within the Project model described by the course."},"concept":"Project configuration versus conversation context","lesson":"Core Entry Points","bloom":"Understand","difficulty":8,"confidence":"High","reference":"Course Notes > Claude Platform & Model Foundations > Core Entry Points > Projects; Exam Guide v1.0, Section 6, Domain 3.","officialTerminology":["Project","standing instructions","knowledge base","conversation history"],"distractorPatterns":["merged-context assumption","assertion-reason logic"],"scenarioType":"assertion-reason","crossModules":[5],"lastReviewDate":"2026-07-22","appearedInMocks":["CCAO-F Impossible Mock Test 01"]},{"id":35,"domain":2,"variant":"Input Curation","selection":"single","question":"A Project contains three versions of a pricing policy: a draft, an approved revision, and a superseded copy with a similar filename. Claude's comparison cites mutually inconsistent thresholds. What is the strongest first correction?","options":{"A":"Ask Claude to reconcile the three policies by majority agreement.","B":"Remove or clearly label draft and superseded copies, keep the approved source, and rerun with an explicit source boundary.","C":"Move all three documents into Memory so Claude can learn which one is used most often.","D":"Switch to Opus and instruct it to infer document authority from approval language, dates, and internal consistency before resolving the threshold conflicts."},"correct":["B"],"rationale":"Noise and duplicate versions in the input create avoidable ambiguity. Curation means removing irrelevant or superseded material and clearly identifying source roles before asking Claude to reason over them.","optionExplanations":{"A":"Incorrect. Policy authority is not determined by whichever language appears most often.","B":"Correct. It fixes the input set and defines the authoritative source before regeneration.","C":"Incorrect. Memory is not a replacement for curated reference documents and could preserve the ambiguity.","D":"Incorrect. Model capability does not establish which document is formally approved."},"concept":"Curating inputs by deduplicating and labeling authority","lesson":"Choosing Output Formats / Curate the Inputs","bloom":"Analyze","difficulty":9,"confidence":"High","reference":"Course Notes > Evaluating & Validating Claude's Output > Choosing Output Formats > Curate the inputs; Course Notes > Configuration & Knowledge Management > Uploaded Knowledge; Exam Guide v1.0, Section 6, Domain 2.","officialTerminology":["curated inputs","de-duplicate","knowledge base","source restriction"],"distractorPatterns":["majority-as-authority","Memory as document store","model as source arbiter"],"scenarioType":"source curation","crossModules":[5,7],"lastReviewDate":"2026-07-22","appearedInMocks":["CCAO-F Impossible Mock Test 01"]},{"id":36,"domain":4,"variant":"Stakeholder Communication","selection":"single","question":"A project sponsor wants to announce, 'Claude now handles contract review end to end.' The actual workflow has Claude extract terms and draft a first-pass redline, while legal counsel reviews every clause and approves all changes. Which replacement is most credible?","options":{"A":"Claude automates legal judgment while counsel performs an optional quality check.","B":"Claude eliminates contract-review risk by standardizing the first pass.","C":"Claude accelerates term extraction and first-pass redlining; legal counsel remains the decision-maker and reviews every clause before any change is approved.","D":"Describe only that Claude provides administrative assistance and avoid naming extraction or redlining stages; keeping the capability boundary private prevents stakeholders from treating limits as weakness."},"correct":["C"],"rationale":"Credible value communication states the actual capability and the human gate. It neither inflates drafting into legal judgment nor hides the limitation. Explicit oversight makes the workflow more defensible.","optionExplanations":{"A":"Incorrect. It reverses the real ownership and mislabels mandatory review as optional.","B":"Incorrect. Standardization can reduce variance but cannot eliminate risk.","C":"Correct. It describes both the value and the boundary precisely.","D":"Incorrect. Clear limitations and human controls increase, rather than reduce, stakeholder credibility."},"concept":"Accurate value and limitation messaging","lesson":"Communicating Value & Limitations","bloom":"Analyze","difficulty":9,"confidence":"High","reference":"Course Notes > Workflow Integration & Solution Design > Communicating Value & Limitations; Exam Guide v1.0, Section 6, Domain 4.","officialTerminology":["capability boundary","human review gate","stakeholder trust"],"distractorPatterns":["automation overclaim","risk elimination","false modesty"],"scenarioType":"stakeholder messaging","crossModules":[2,6],"lastReviewDate":"2026-07-22","appearedInMocks":["CCAO-F Impossible Mock Test 01"]},{"id":37,"domain":5,"variant":"Best Instruction","selection":"single","question":"Which standing instruction is most likely to produce consistent, testable behavior across Project conversations?","options":{"A":"Be professional and accurate at all times.","B":"Use good judgment and write the way our company prefers.","C":"Make every response excellent, concise, detailed, and creative, and ask Claude to balance those priorities based on the recipient and topic.","D":"Use a formal register; define acronyms on first use; keep paragraphs under four sentences; label unsupported claims 'Not verified'."},"correct":["D"],"rationale":"Persistent instructions must be precise enough that two people interpret them the same way. The correct option converts vague quality goals into observable language, structure, and verification behavior.","optionExplanations":{"A":"Incorrect. 'Professional' and 'accurate' are desirable but not operationally testable.","B":"Incorrect. It assumes unspecified company context and leaves the required behavior ambiguous.","C":"Incorrect. The goals conflict and provide no concrete test for compliance.","D":"Correct. Every requirement is specific, observable, and reusable."},"concept":"Precision in persistent instructions","lesson":"System-Level Instructions That Stick","bloom":"Understand","difficulty":8,"confidence":"High","reference":"Course Notes > Configuration & Knowledge Management > System-Level Instructions That Stick; Exam Guide v1.0, Section 6, Domain 5.","officialTerminology":["standing instructions","persistent instructions","verification behaviors"],"distractorPatterns":["vague quality term","assumed context","conflicting adjectives"],"scenarioType":"instruction design","crossModules":[1,2],"lastReviewDate":"2026-07-22","appearedInMocks":["CCAO-F Impossible Mock Test 01"]},{"id":38,"domain":6,"variant":"Multiple Response","selection":"multi","answerCount":2,"question":"A reputable connector can read and write across all company Drive folders and Gmail. The proposed workflow only needs read access to one approved folder. Which TWO conclusions best follow least privilege?","options":{"A":"The requested scope is disproportionate to the task even if the provider is reputable.","B":"A reputable source makes the scope acceptable without further review.","C":"Grant broad access now to avoid reauthorization if the workflow expands later.","D":"Enable the connector and rely on monitoring to discover whether the scope was excessive.","E":"Seek a narrower read-only scope or route the exception for authorized review before enabling; revisit access if the job later changes."},"correct":["A","E"],"rationale":"Source reputation is only one part of the trust check. Reach must be proportional to the current need. Least privilege means granting the narrowest access that performs the job and changing it deliberately if the job changes.","optionExplanations":{"A":"Correct. Broad read-write access exceeds the workflow's demonstrated need.","B":"Incorrect. A trusted provider does not make disproportionate permissions appropriate.","C":"Incorrect. Speculative future convenience is the opposite of least privilege.","D":"Incorrect. Monitoring after enablement does not replace a pre-enable proportionality decision.","E":"Correct. It aligns scope to current need and preserves an escalation path."},"concept":"Least privilege across connectors and tools","lesson":"Skill Trust & Feature-Level Risk","bloom":"Evaluate","difficulty":10,"confidence":"High","reference":"Course Notes > Governance, Risk & Responsible Use > Skill Trust & Feature-Level Risk > Least privilege generalization; Exam Guide v1.0, Section 6, Domain 6.","officialTerminology":["least privilege","Source","Reach","Appropriateness"],"distractorPatterns":["trusted-source halo","future-proofing permissions","monitor-after-enable"],"scenarioType":"access evaluation","crossModules":[5],"lastReviewDate":"2026-07-22","appearedInMocks":["CCAO-F Impossible Mock Test 01"]},{"id":39,"domain":2,"variant":"Output Triage","selection":"single","question":"Claude produces a polished compliance filing draft based on its training recall of a regulation updated last week. The official text was not supplied, the filing is due tomorrow, and the responsible compliance officer has not reviewed it. What is the correct verdict?","options":{"A":"Needs human override: obtain the current regulation and have the accountable compliance expert validate the analysis before filing.","B":"Needs revision: ask Claude for a fresh response, reconcile differences with the draft, and file if both versions agree on the material requirements.","C":"Ready to use because the output is polished and the deadline makes further review impractical.","D":"Ready to use after replacing precise citations with general language."},"correct":["A"],"rationale":"The source is current, authoritative, and absent; the task has regulatory exposure and an irreversible filing action. These facts cross the Diligence threshold for qualified human ownership. Removing specificity or asking Claude to check itself does not supply the missing authority.","optionExplanations":{"A":"Correct. It combines authoritative grounding with mandatory accountable review.","B":"Incorrect. Self-review against training recall is not validation of a newly updated rule.","C":"Incorrect. Deadline pressure does not lower regulatory and irreversibility thresholds.","D":"Incorrect. Less precise language can conceal uncertainty but cannot resolve it."},"concept":"Regulatory and irreversibility thresholds","lesson":"Diligence: When Review Is Non-Negotiable","bloom":"Analyze","difficulty":9,"confidence":"High","reference":"Course Notes > Evaluating & Validating Claude's Output > Diligence: When Human Review Is Non-Negotiable; Exam Guide v1.0, Section 6, Domain 2.","officialTerminology":["regulatory exposure","irreversibility","authoritative source","needs human override"],"distractorPatterns":["self-validation","deadline exception","hedging as validation"],"scenarioType":"compliance triage","crossModules":[3,6],"lastReviewDate":"2026-07-22","appearedInMocks":["CCAO-F Impossible Mock Test 01"]},{"id":40,"domain":1,"variant":"Prompt Evaluation","selection":"single","question":"An incident manager needs a one-page postmortem for engineering leaders from an attached incident log. It must separate verified facts from hypotheses and end with three owned corrective actions. Which prompt is strongest?","options":{"A":"Act as an elite incident expert. Read the full log, infer the most important lessons, and write a comprehensive postmortem that demonstrates authoritative judgment for engineering leadership.","B":"Act as an incident analyst. Using only the attached log, write a one-page postmortem for engineering leaders: timeline, evidenced root cause, unverified hypotheses labeled, impact, and exactly three actions with owners. Cite timestamps; if root cause is unsupported, say so.","C":"Using only the attached log, produce a one-page executive postmortem with timeline, impact, and three actions. Resolve conflicting evidence into the most likely root cause, state it decisively so leaders can act without reviewing uncertainty, and omit competing hypotheses from consideration.","D":"List everything in the log, preserve its order, and avoid interpretation."},"correct":["B"],"rationale":"The strongest prompt supplies a task-relevant role, the audience and source boundary, a clear action, constraints, an output structure, and verification behavior. It also permits uncertainty rather than demanding a fabricated decisive cause.","optionExplanations":{"A":"Incorrect. Role inflation leaves audience, source discipline, required sections, and uncertainty handling unspecified.","B":"Correct. It integrates all five prompt components with verifiability and audience fitness.","C":"Incorrect. It pressures Claude to overstate an uncertain cause and omits evidence requirements.","D":"Incorrect. Raw chronology does not satisfy the requested analysis or corrective-action deliverable."},"concept":"Full component stack with verifiability","lesson":"Anatomy of an Effective Prompt","bloom":"Evaluate","difficulty":9,"confidence":"High","reference":"Course Notes > Prompting & Task Execution > Anatomy of an Effective Prompt; Course Notes > Evaluating & Validating Claude's Output > Fact-Checking & Grounding; Exam Guide v1.0, Section 6, Domain 1.","officialTerminology":["role","context","task","constraints","output format","source restriction"],"distractorPatterns":["role inflation","forced certainty","summary instead of analysis"],"scenarioType":"best prompt","crossModules":[2,4],"lastReviewDate":"2026-07-22","appearedInMocks":["CCAO-F Impossible Mock Test 01"]},{"id":41,"domain":3,"caseId":"asteron","variant":"Case Study - Product Selection","selection":"single","question":"Which overall product setup best fits Asteron's recurring monthly workflow?","options":{"A":"A new standalone Chat each month, with all source files and instructions pasted again; keep the board brief inline.","B":"A single indefinitely extended Chat so every month shares one conversation window; use prose for the metrics.","C":"A Project for stable context and curated sources, Research when deep current multi-source investigation is required, code execution for metrics, and an Artifact for the board-ready deliverable.","D":"Research alone, because it automatically supplies Project instructions, persistent decisions, computed metrics, and the final editable deliverable."},"correct":["C"],"rationale":"The workflow combines several independent needs: recurring context, current multi-source research, verified computation, and a reusable deliverable. The four layers and entry points can be combined; no single one replaces the others.","optionExplanations":{"A":"Incorrect. It repeats stable setup work and uses an inferior format for a board deliverable.","B":"Incorrect. An endlessly growing conversation invites context degradation, and prose is not the verified path for reported metrics.","C":"Correct. Each product feature is matched to the distinct problem it solves.","D":"Incorrect. Research provides multi-source synthesis but does not replace Project configuration, code execution, Memory, or Artifact output."},"concept":"Layered feature selection for a recurring analytical workflow","lesson":"Core Entry Points and Capability Layer","bloom":"Apply","difficulty":10,"confidence":"High","reference":"Course Notes > Claude Platform & Model Foundations > Core Entry Points and Capability Layer; Exam Guide v1.0, Section 6, Domain 3.","officialTerminology":["Project","Research","code execution","Artifact"],"distractorPatterns":["one-feature-does-all","long-chat persistence","prose calculation"],"scenarioType":"case study - solution stack","crossModules":[2,4,5],"lastReviewDate":"2026-07-22","appearedInMocks":["CCAO-F Impossible Mock Test 01"]},{"id":42,"domain":5,"caseId":"asteron","variant":"Case Study - Configuration","selection":"single","question":"Asteron's approved supplier-performance PDFs are updated monthly in one Drive folder, while the scoring rubric is approved quarterly and should remain stable between revisions. Which source arrangement is strongest?","options":{"A":"Connect all company Drive content so Claude can find any future document, and let it infer which versions are authoritative.","B":"Upload each monthly PDF into Project knowledge, retain every prior copy, and instruct Claude to infer current authority from dates and recurring terminology so historical comparison and source freshness remain available together.","C":"Store Drive links and the rubric in scoped Memory so prior use determines source authority.","D":"Authorize only the relevant Drive scope for current monthly documents, keep the approved rubric as clearly labeled curated knowledge, remove superseded uploads, and document the connector's read/action boundary."},"correct":["D"],"rationale":"Connected and uploaded sources should be deliberate, current, and unambiguous. A narrow connector scope supports changing monthly files, while the stable approved rubric belongs in curated knowledge. Removing superseded copies prevents conflicting authority, and documenting connector boundaries keeps the workflow realistic.","optionExplanations":{"A":"Incorrect. Broad access violates proportionality and leaves source authority ambiguous.","B":"Incorrect. Accumulating duplicate and superseded sources invites citation of the wrong version.","C":"Incorrect. Memory is an evolving continuity mechanism, not the authoritative store for linked reference documents.","D":"Correct. It separates dynamic connected content from stable curated knowledge and maintains both deliberately."},"concept":"Dynamic connected sources versus stable curated knowledge","lesson":"Connectors & Uploaded Knowledge","bloom":"Apply","difficulty":9,"confidence":"High","reference":"Course Notes > Configuration & Knowledge Management > Connectors & Uploaded Knowledge and Maintaining Configurations; Exam Guide v1.0, Section 6, Domain 5.","officialTerminology":["connector","knowledge base","capability boundary","curated source"],"distractorPatterns":["connect-everything","more-context-is-better","Memory as authoritative reference"],"scenarioType":"case study - source configuration","crossModules":[2,6,7],"lastReviewDate":"2026-07-22","appearedInMocks":["CCAO-F Impossible Mock Test 01"]},{"id":43,"domain":3,"caseId":"asteron","variant":"Case Study - Research Selection","selection":"single","question":"For one country, Asteron only needs to confirm whether a named port closed today. For the board brief, it needs a cited synthesis of supply disruptions across six countries and multiple source types. Which selection is best?","options":{"A":"Use web search in Chat for the narrow current lookup and Research for the deep multi-source synthesis, subject to source validation in both cases.","B":"Use Research for the port lookup and rely on the Project's static knowledge for the six-country current synthesis.","C":"Use Chat without web search for both because the Project already contains supplier PDFs.","D":"Use an Artifact for the investigation and Research only to format the final brief."},"correct":["A"],"rationale":"Quick currency needs fit web search in Chat; a deep investigation across countries and source types fits Research. Neither mode eliminates validation, and static Project knowledge does not become current automatically.","optionExplanations":{"A":"Correct. It selects by depth and currency and preserves Diligence.","B":"Incorrect. It reverses the efficient use of Chat and Research and assumes static knowledge is current.","C":"Incorrect. Uploaded supplier PDFs cannot establish today's external disruption status unless they contain that current evidence.","D":"Incorrect. An Artifact is an output format, not the investigation engine."},"concept":"Quick current lookup versus deep current research","lesson":"Core Entry Points","bloom":"Understand","difficulty":9,"confidence":"High","reference":"Course Notes > Claude Platform & Model Foundations > Core Entry Points > Research; Exam Guide v1.0, Section 6, Domain 3.","officialTerminology":["web search","Chat","Research","current sources"],"distractorPatterns":["depth reversal","static-source currency","output-research confusion"],"scenarioType":"case study - research choice","crossModules":[1,2],"lastReviewDate":"2026-07-22","appearedInMocks":["CCAO-F Impossible Mock Test 01"]},{"id":44,"domain":2,"caseId":"asteron","variant":"Case Study - Code Validation","selection":"single","question":"Code execution reports that Asteron's top supplier represents 62% of annual spend. Review shows the CSV contains one snapshot per month, so the same invoices appear in several snapshots. What should happen before the figure enters the board brief?","options":{"A":"Use 62% because code execution makes the total deterministic and therefore correct.","B":"Treat it as traceable but invalid: fix the data grain, deduplicate or select the authoritative snapshot, rerun, inspect the logic, and review before the board.","C":"Average the twelve snapshot totals in prose and compare that value with 62%; duplicated records make code execution unsuitable until the source system is rebuilt.","D":"Ask Research for a second concentration percentage and use whichever figure is lower."},"correct":["B"],"rationale":"The computation faithfully executed over the wrong analytical grain. A reproducible wrong input model remains wrong. Fixing the dataset and logic, rerunning, and reviewing the financially material board figure preserves both traceability and Diligence.","optionExplanations":{"A":"Incorrect. Determinism reproduces the specified computation; it does not validate duplicate rows or business logic.","B":"Correct. It addresses data grain, code logic, recomputation, and the review threshold.","C":"Incorrect. Duplicate data is a cleaning problem that code execution is well suited to solve when the logic is corrected.","D":"Incorrect. External research cannot validate Asteron's internal spend computation, and choosing the lower number is arbitrary."},"concept":"Data-grain validation for code-executed results","lesson":"Choosing Output Formats: Code-Executed","bloom":"Analyze","difficulty":10,"confidence":"High","reference":"Course Notes > Evaluating & Validating Claude's Output > Choosing Output Formats; Course Notes > Workflow Integration & Solution Design > Code execution for verified analysis; Exam Guide v1.0, Section 6, Domain 2.","officialTerminology":["code execution","traceable","computed result","human review"],"distractorPatterns":["determinism fallacy","abandon verified path","unrelated external comparison"],"scenarioType":"case study - numeric validation","crossModules":[3,4,6],"lastReviewDate":"2026-07-22","appearedInMocks":["CCAO-F Impossible Mock Test 01"]},{"id":45,"domain":1,"caseId":"asteron","variant":"Case Study - Best Sequence","selection":"single","question":"Which sequence should Asteron use to produce the monthly board brief?","options":{"A":"Draft the recommendation; search for supporting evidence; compute metrics; ask the director to approve.","B":"Compute metrics; draft the brief; define the board's decision; inspect source coverage after approval.","C":"Define the decision and criteria; curate and verify evidence; compute and validate metrics; draft and adapt the brief; obtain director approval.","D":"Run Research and code execution in parallel, merge their outputs through the report Skill, and ask the director to review only the final recommendation."},"correct":["C"],"rationale":"The correct sequence defines the purpose, builds a curated and verified evidence foundation, computes the quantitative layer, drafts from both, adapts for audience, and ends with the required human gate. Each intermediate result is checkable.","optionExplanations":{"A":"Incorrect. It begins with a conclusion and invites evidence selection to support it.","B":"Incorrect. Metrics and drafting precede the decision criteria, and source validation occurs too late.","C":"Correct. It orders specification, evidence, computation, drafting, adaptation, and approval coherently.","D":"Incorrect. A Skill supplies procedure consistency; it does not decide source authority, workflow order, or governance."},"concept":"End-to-end decomposed workflow sequence","lesson":"Task Decomposition","bloom":"Apply","difficulty":10,"confidence":"High","reference":"Course Notes > Prompting & Task Execution > Task Decomposition; Course Notes > Evaluating & Validating Claude's Output > Discernment and Diligence; Exam Guide v1.0, Section 6, Domain 1.","officialTerminology":["decomposition","checkable intermediate result","source validation","human review"],"distractorPatterns":["conclusion-first","validation-too-late","Skill-as-governance"],"scenarioType":"case study - ordering","crossModules":[2,4,6],"lastReviewDate":"2026-07-22","appearedInMocks":["CCAO-F Impossible Mock Test 01"]},{"id":46,"domain":4,"caseId":"asteron","variant":"Case Study - Delegation Map","selection":"single","question":"Which ownership map is most defensible for Asteron's workflow?","options":{"A":"Claude selects suppliers and sends the board brief; humans maintain the source folder.","B":"Humans perform every step because the final recommendation is high-stakes.","C":"Claude extracts and computes, drafts the recommendation, and approves low-risk supplier actions; the director reviews only exceptions above a defined threshold.","D":"Claude extracts and drafts, code execution computes, analysts verify, and the director owns recommendations, approvals, and supplier actions."},"correct":["D"],"rationale":"The map delegates reversible preparation and computation while retaining verification, judgment, approval, and consequential action with accountable humans. It creates explicit collaborative gates instead of treating a strong draft as authority to decide.","optionExplanations":{"A":"Incorrect. It delegates irreversible, high-accountability decisions and communication.","B":"Incorrect. High-stakes final ownership does not require humans to perform every reversible analytical step.","C":"Incorrect. Post-hoc notification is not a review gate and cannot preserve decision accountability.","D":"Correct. It maps each step according to reversibility, stakes, and accountability."},"concept":"Step-level AI, collaborative, and human ownership","lesson":"Delegation Mapping","bloom":"Analyze","difficulty":10,"confidence":"High","reference":"Course Notes > Workflow Integration & Solution Design > Delegation Mapping; Exam Guide v1.0, Section 6, Domain 4.","officialTerminology":["AI-appropriate","collaborative","human-retained","accountability"],"distractorPatterns":["over-delegation","all-human fallback","review-after-action"],"scenarioType":"case study - delegation","crossModules":[2,6],"lastReviewDate":"2026-07-22","appearedInMocks":["CCAO-F Impossible Mock Test 01"]},{"id":47,"domain":6,"caseId":"asteron","variant":"Case Study - Multiple Response","selection":"multi","answerCount":2,"question":"Asteron's Team-plan administrators want an organization-wide switch that disables Memory for every user. Which TWO statements match the course guidance?","options":{"A":"Any Team-plan member can disable Memory for the whole organization from personal settings.","B":"The course notes state that Team plans do not provide organization-level controls for Memory features.","C":"Organization-wide Memory controls are associated with Enterprise Owners or Primary Owners; because plan behavior can change, administrators should verify the current Help Center guidance.","D":"Using Incognito once disables Memory organization-wide for future chats.","E":"Organization-level Memory controls are unavailable on both Team and Enterprise; only personal settings exist."},"correct":["B","C"],"rationale":"Within the certification course's July 2026 frame, Team lacks organization-level Memory controls, while Enterprise Owners and Primary Owners hold the organization-wide controls. The course also instructs candidates to verify current plan behavior in the Help Center because capabilities evolve.","optionExplanations":{"A":"Incorrect. Personal controls do not grant a Team member an organization-wide administrative switch.","B":"Correct. It states the plan distinction taught in the course.","C":"Correct. It identifies the Enterprise owner roles and the need to verify evolving behavior.","D":"Incorrect. Incognito controls one standalone chat's history and Memory behavior, not the organization's global configuration.","E":"Incorrect. The course identifies organization-level controls on Enterprise."},"concept":"Plan-level ownership of organization-wide Memory controls","lesson":"Data Sensitivity, Privacy & Feature Controls","bloom":"Remember","difficulty":9,"confidence":"High","reference":"Course Notes > Governance, Risk & Responsible Use > Data Sensitivity, Privacy & Feature Controls > Org-level Memory controls; Exam Guide v1.0, Section 6, Domain 6.","officialTerminology":["Team plan","Enterprise","Owner","Primary Owner","org-level Memory controls"],"distractorPatterns":["personal-setting overreach","Incognito-as-org-control","never-available absolute"],"scenarioType":"case study - plan governance","crossModules":[3,5],"lastReviewDate":"2026-07-22","appearedInMocks":["CCAO-F Impossible Mock Test 01"]},{"id":48,"domain":2,"caseId":"asteron","variant":"Case Study - Output Triage","selection":"single","question":"The board brief is polished and its spend metric has been validated. However, the recommendation to suspend a supplier rests on one secondary news report that Research summarized, and no analyst has checked the original source or contacted the supplier. What is the correct verdict?","options":{"A":"Needs human override: verify the claim using authoritative evidence, expose uncertainty, and retain the director's gate before any recommendation or action.","B":"Ready to use because one validated metric makes the overall brief reliable.","C":"Needs revision only: replace 'suspend' with 'monitor closely,' cite the secondary article, and let the board decide whether more evidence is necessary without delaying the recommendation until additional sources arrive.","D":"Ready to use if Research cited the secondary article correctly."},"correct":["A"],"rationale":"A validated numeric component does not validate a separate material claim. The recommendation has executive visibility and potentially irreversible supplier consequences, while its evidence chain is weak. Those conditions require authoritative verification and accountable human judgment.","optionExplanations":{"A":"Correct. It applies both Discernment to the unsupported claim and Diligence to the consequential recommendation.","B":"Incorrect. Reliability does not transfer from one verified component to unrelated evidence.","C":"Incorrect. Softer wording does not repair the missing verification behind the recommendation.","D":"Incorrect. A traceable citation to a secondary report proves attribution, not the underlying claim."},"concept":"Component-level validation and escalation","lesson":"Discernment and Diligence","bloom":"Evaluate","difficulty":10,"confidence":"High","reference":"Course Notes > Evaluating & Validating Claude's Output > Discernment, Fact-Checking, and Diligence; Exam Guide v1.0, Section 6, Domain 2.","officialTerminology":["authoritative source","needs human override","reversibility","accountability"],"distractorPatterns":["validation halo","wording-only fix","citation-equals-truth"],"scenarioType":"case study - executive review","crossModules":[3,4,6],"lastReviewDate":"2026-07-22","appearedInMocks":["CCAO-F Impossible Mock Test 01"]},{"id":49,"domain":7,"caseId":"asteron","variant":"Case Study - Troubleshooting","selection":"single","question":"During the pilot, the session initially follows Asteron's citation rule, but after many uploaded documents and iterative drafts it begins omitting citations and forgetting an early decision. The current Project configuration is correct. What is the most likely cause and response?","options":{"A":"Stale configuration: rebuild the Project knowledge base and restate the citation rule, since omitted citations show that the standing setup is no longer strong enough.","B":"Context overload: summarize the state, restart inside the Project, and continue with the necessary sources and decisions.","C":"Under-specification; paste the same citation rule repeatedly into the degraded thread.","D":"Task mismatch; abandon the supplier workflow."},"correct":["B"],"rationale":"The output started correctly and degraded as the session accumulated material, while configuration remains current. That timing signature identifies context overload. A summary plus restart restores context capacity without discarding the Project baseline.","optionExplanations":{"A":"Incorrect. The evidence explicitly says the configuration is current; the failure evolved within one long session.","B":"Correct. It matches the degraded-over-time signature and applies the summarize-restart response.","C":"Incorrect. Repetition inside an overloaded thread does not recover compressed earlier context reliably.","D":"Incorrect. The failure has a specific recoverable cause and does not show that the use case is unsuitable."},"concept":"Degraded-over-time context overload signature","lesson":"Diagnosing Underperforming Prompts & Outputs","bloom":"Analyze","difficulty":9,"confidence":"High","reference":"Course Notes > Troubleshooting & Optimization > Diagnosing Underperforming Prompts & Outputs; Course Notes > Claude Platform & Model Foundations > Context Management; Exam Guide v1.0, Section 6, Domain 7.","officialTerminology":["context overload","summarize","restart","Project baseline"],"distractorPatterns":["wrong timing signature","repeat-in-place","premature abandonment"],"scenarioType":"case study - context troubleshooting","crossModules":[1,3,5],"lastReviewDate":"2026-07-22","appearedInMocks":["CCAO-F Impossible Mock Test 01"]},{"id":50,"domain":4,"caseId":"asteron","variant":"Case Study - Stakeholder Message","selection":"single","question":"In the four-cycle pilot, median preparation time fell from 70 to 38 minutes, but analysts corrected at least one unsupported current-event claim in three cycles. Which statement should Asteron use with its board risk committee?","options":{"A":"Claude cut preparation time nearly in half and eliminated current-information risk.","B":"Do not report the time gain until four consecutive cycles need no corrections; describing value before perfect reliability would overstate the result even with controls.","C":"The pilot cut median time from 70 to 38 minutes but needed claim correction in three of four cycles; retain analyst verification and director approval, tracking speed and correction rate.","D":"Report only that Claude helps with formatting, so the risk committee is not distracted by the analytical details."},"correct":["C"],"rationale":"Credible stakeholder communication reports measured value and the observed limitation together, then names the controls and ongoing metric. It neither converts a speed gain into a reliability claim nor hides material use of Claude.","optionExplanations":{"A":"Incorrect. The correction data directly contradicts the claim that current-information risk was eliminated.","B":"Incorrect. A useful measured gain can be reported honestly alongside its residual limitation and controls.","C":"Correct. It is evidence-based, balanced, and explicit about oversight and future measurement.","D":"Incorrect. It materially understates the workflow and prevents the committee from evaluating the real risk posture."},"concept":"Evidence-based communication of measured value and residual limitation","lesson":"Communicating Value & Limitations","bloom":"Understand","difficulty":9,"confidence":"High","reference":"Course Notes > Workflow Integration & Solution Design > Communicating Value & Limitations; Exam Guide v1.0, Section 6, Domain 4.","officialTerminology":["human oversight","capability boundary","measured improvement","stakeholder trust"],"distractorPatterns":["speed-to-reliability leap","perfection-before-reporting","concealment"],"scenarioType":"case study - stakeholder communication","crossModules":[2,6],"lastReviewDate":"2026-07-22","appearedInMocks":["CCAO-F Impossible Mock Test 01"]},{"id":51,"domain":7,"variant":"Diagnostic Sequence","selection":"single","question":"A short, well-specified conversation repeatedly produces subtly different totals when Claude is asked in prose to sum an uploaded expense table. The configuration is current. What is the next diagnostic conclusion?","options":{"A":"The task is impossible for Claude because totals vary.","B":"Context overload: restart with a summary of the table and calculation request, because repeated variance suggests that uploaded rows were compressed.","C":"The prompt needs a more detailed financial-analyst role.","D":"This is the wrong capability path; use code execution and validate its generated logic."},"correct":["D"],"rationale":"The prompt and context have been ruled out, while the symptom is a repeatable numerical error from prose calculation. The diagnostic sequence next checks feature/model fit. Code execution is the appropriate computed path, followed by logic review.","optionExplanations":{"A":"Incorrect. The task is suitable when performed with the correct capability.","B":"Incorrect. The short session and stable behavior do not match context degradation.","C":"Incorrect. A role label does not make prose arithmetic reliable.","D":"Correct. It identifies the wrong-feature signature and applies the right verification path."},"concept":"Specific-error-type diagnosis","lesson":"Diagnosing Underperforming Prompts & Outputs","bloom":"Apply","difficulty":8,"confidence":"High","reference":"Course Notes > Troubleshooting & Optimization > Diagnosing Underperforming Prompts & Outputs; Course Notes > Claude Platform & Model Foundations > Code Execution; Exam Guide v1.0, Section 6, Domain 7.","officialTerminology":["wrong feature or model","code execution","diagnostic sequence"],"distractorPatterns":["task rejection","wrong timing signature","role-as-computation"],"scenarioType":"numeric troubleshooting","crossModules":[1,2,3],"lastReviewDate":"2026-07-22","appearedInMocks":["CCAO-F Impossible Mock Test 01"]},{"id":52,"domain":2,"variant":"Least Valuable Action","selection":"single","question":"Claude supplies five plausible themes for a low-stakes internal workshop brainstorm. No factual claims will be published, and participants will evaluate the ideas live. Which review action adds the LEAST value relative to its cost?","options":{"A":"Require independent authoritative verification for every idea before allowing the workshop to see any of them.","B":"Check quickly that the five ideas address the workshop goal and do not contain an obvious harmful framing.","C":"Label the list as a discussion starter rather than a decision.","D":"Remove an idea that is clearly outside the stated scope."},"correct":["A"],"rationale":"Diligence is calibrated to stakes. A low-stakes, reversible, internal brainstorm needs light review for fit and obvious risk, not exhaustive source validation of every idea. Over-verification would consume the time the workflow was meant to save.","optionExplanations":{"A":"Correct as the least valuable action. It applies a zero-tolerance review burden to a low-stakes discussion starter.","B":"Incorrect as the requested choice. This proportionate check protects relevance and basic fairness at low cost.","C":"Incorrect as the requested choice. The label accurately sets expectations and limits misuse.","D":"Incorrect as the requested choice. A scope check directly tests the stated requirement."},"concept":"Stakes-calibrated review depth","lesson":"Discernment: Accuracy & Completeness","bloom":"Evaluate","difficulty":9,"confidence":"High","reference":"Course Notes > Evaluating & Validating Claude's Output > Discernment > Stakes calibration; Exam Guide v1.0, Section 6, Domain 2.","officialTerminology":["stakes calibration","ready to use","Diligence"],"distractorPatterns":["reverse logic","uniform maximum review","low-stakes over-escalation"],"scenarioType":"review calibration","crossModules":[6],"lastReviewDate":"2026-07-22","appearedInMocks":["CCAO-F Impossible Mock Test 01"]},{"id":53,"domain":4,"variant":"Workflow Creation","selection":"single","question":"A finance team wants to redesign expense-report handling. The workflow includes receipt extraction, policy comparison, arithmetic checks, exception investigation, approval, and payment release. Which proposed design is strongest?","options":{"A":"Build around the spreadsheet Skill, use its supported stages as the process baseline, and retain manual approval only where the Skill cannot return a structured result.","B":"Map work first; use a Skill for procedure, code for arithmetic and rule checks, analysts for ambiguous exceptions, and authorized humans for approval and payment; define gates and metrics.","C":"Ask Claude to handle every step, then add human review only if an error is discovered during the pilot.","D":"Keep the current process unchanged because approval and payment cannot be delegated."},"correct":["B"],"rationale":"The strongest design maps the actual work before selecting features, assigns each step by reversibility, stakes, and accountability, uses the correct capability for procedures and computation, and makes human gates and measurement explicit.","optionExplanations":{"A":"Incorrect. Mapping the tool instead of the work distorts the workflow around available features.","B":"Correct. It creates a defensible end-to-end redesign with explicit ownership and validation.","C":"Incorrect. Controls must be designed before consequential errors, not added reactively.","D":"Incorrect. Human-retained approval does not eliminate opportunities to augment reversible preparation steps."},"concept":"Work-first solution design with explicit delegation gates","lesson":"Delegation Mapping","bloom":"Create","difficulty":10,"confidence":"High","reference":"Course Notes > Workflow Integration & Solution Design > Delegation Mapping and Research, Planning & Process Optimization; Exam Guide v1.0, Section 6, Domain 4.","officialTerminology":["map the work first","Skill","code execution","collaborative","human-retained"],"distractorPatterns":["tool-first mapping","control-after-error","all-or-nothing delegation"],"scenarioType":"workflow creation","crossModules":[2,3,5,6,7],"lastReviewDate":"2026-07-22","appearedInMocks":["CCAO-F Impossible Mock Test 01"]},{"id":54,"domain":1,"variant":"Prompt Creation","selection":"single","question":"A consultant must ask Claude to compare two uploaded vendor proposals for a steering committee that will choose a provider. The committee cares about implementation risk, total cost, data handling, and contractual exit. Which prompt is best designed?","options":{"A":"Compare both proposals thoroughly and recommend the better one.","B":"Act as a senior procurement consultant. Compare implementation risk, cost, data handling, and exit flexibility, cite proposal sections when available, and make a decisive recommendation for the steering committee. Where terms are incomplete, use standard procurement practice to fill the gaps so the committee receives a complete choice.","C":"Act as a procurement analyst. Using only the two proposals, compare the four stated criteria. Extract page-cited evidence first, flag missing terms, then provide a four-row table, unresolved questions, and a conditional evidence-linked recommendation. Do not infer gaps.","D":"Summarize each proposal under implementation, cost, data, and exit; then select the stronger proposal and explain the decisive differences for the steering committee in a comparison table."},"correct":["C"],"rationale":"The correct prompt specifies role, decision context, task criteria, source boundary, verification sequence, uncertainty behavior, and output format. It decomposes evidence extraction before recommendation and makes the conclusion auditable.","optionExplanations":{"A":"Incorrect. It omits criteria handling, source discipline, audience, and output structure.","B":"Incorrect. Role inflation and forced decisiveness increase confidence without evidence.","C":"Correct. It combines the full component stack with decomposition and grounded evaluation.","D":"Incorrect. Separate summaries do not guarantee a criterion-by-criterion comparison or evidence-linked recommendation."},"concept":"Creating a grounded, decomposed decision prompt","lesson":"Anatomy of an Effective Prompt and Task Decomposition","bloom":"Create","difficulty":10,"confidence":"High","reference":"Course Notes > Prompting & Task Execution > Anatomy of an Effective Prompt and Task Decomposition; Course Notes > Evaluating & Validating Claude's Output > Fact-Checking & Grounding; Exam Guide v1.0, Section 6, Domain 1.","officialTerminology":["role","context","task","constraints","output format","quote first, then analyze"],"distractorPatterns":["under-specification","role inflation","summary-not-comparison"],"scenarioType":"prompt creation","crossModules":[2,4],"lastReviewDate":"2026-07-22","appearedInMocks":["CCAO-F Impossible Mock Test 01"]},{"id":55,"domain":6,"variant":"Ethical Evaluation","selection":"single","question":"No policy directly addresses whether a nonprofit should disclose that Claude helped draft personalized donor messages. Some recipients may assume each note was written personally by a staff member. What is the most responsible next step?","options":{"A":"Do not disclose because the absence of a policy is permission.","B":"Disclose only if a recipient asks directly.","C":"Suspend AI-assisted donor messaging until leadership publishes an explicit disclosure policy, because proceeding under ethical ambiguity could mislead recipients.","D":"Identify affected parties, possible deception, fair outcome, and disclosure needs; document the reasoning and favor disclosure if uncertainty remains."},"correct":["D"],"rationale":"When no rule settles an ethical case, the course calls for structured reasoning: affected people, possible harms, fairness, and disclosure. The result and rationale should be documented. Genuine uncertainty favors disclosure over concealment.","optionExplanations":{"A":"Incorrect. Policy silence does not eliminate ethical responsibility or audience expectations.","B":"Incorrect. Waiting to be challenged is concealment, not a reasoned transparency decision.","C":"Incorrect. Ambiguity calls for structured judgment, not an automatic permanent ban.","D":"Correct. It applies the complete ethical reasoning framework and its responsible default."},"concept":"Structured reasoning for ambiguous ethical cases","lesson":"Ethical Implications","bloom":"Evaluate","difficulty":10,"confidence":"High","reference":"Course Notes > Governance, Risk & Responsible Use > Ethical Implications: Bias, Fairness, Transparency; Exam Guide v1.0, Section 6, Domain 6.","officialTerminology":["transparency","disclosure","fair outcome","documented reasoning"],"distractorPatterns":["policy-silence permission","disclose-only-if-caught","blanket ban"],"scenarioType":"ambiguous ethics","crossModules":[2,4],"lastReviewDate":"2026-07-22","appearedInMocks":["CCAO-F Impossible Mock Test 01"]},{"id":56,"domain":3,"variant":"Context Strategy Mapping","selection":"single","question":"A professional must handle a drifted thread, continue dependent work in a fresh conversation, and retain selected information for future sessions. Which mapping of context-management responses is correct?","options":{"A":"Restart for a drifted or genuinely new task; summarize when dependent work must continue in a fresh thread; persist stable recurring facts or decisions in Memory or Project knowledge as appropriate.","B":"Restart only when the model tier changes, summarize after a usage limit is reached, and persist the full working transcript in standing instructions so every later conversation reconstructs the exact thread without relying on Memory.","C":"Restart for every new prompt; summarize only after the usage limit is reached; persist temporary calculations in global Memory.","D":"Use Memory for exact thread reconstruction, knowledge for behavioral rules, and Skills for one-off context."},"correct":["A"],"rationale":"Restart, summarize, and persist solve different context problems. The appropriate persistence location still depends on type: reference facts in knowledge, continuity in Memory, behavior in instructions, and procedures in Skills.","optionExplanations":{"A":"Correct. It maps each response to its intended context need.","B":"Incorrect. Model changes do not define restart timing, and transcripts do not belong wholesale in instructions.","C":"Incorrect. The choices are not fixed to every prompt or usage exhaustion, and temporary calculations do not belong in global Memory.","D":"Incorrect. It misstates the reliability and purpose of all three mechanisms."},"concept":"Restart, summarize, and persist","lesson":"Context Management","bloom":"Remember","difficulty":8,"confidence":"High","reference":"Course Notes > Claude Platform & Model Foundations > Context Management; Exam Guide v1.0, Section 6, Domain 3.","officialTerminology":["restart","summarize","persist","context window"],"distractorPatterns":["fixed-trigger confusion","exact-Memory assumption","wrong persistence home"],"scenarioType":"context mapping","crossModules":[5,7],"lastReviewDate":"2026-07-22","appearedInMocks":["CCAO-F Impossible Mock Test 01"]},{"id":57,"domain":5,"variant":"Maintenance Analysis","selection":"single","question":"An Anthropic-provided document Skill and a custom-uploaded reporting Skill are both in use. The reporting standard changes. Which maintenance statement is accurate?","options":{"A":"Both Skills absorb the new standard when the approved Project knowledge is replaced, so re-upload is unnecessary unless the output format changes.","B":"Anthropic or organization-provisioned Skills may auto-update; custom uploads require an update and re-upload, followed by workflow testing.","C":"Custom Skills update automatically, while Anthropic-provided Skills require manual re-upload.","D":"Skill versions do not affect output; only the model tier needs maintenance."},"correct":["B"],"rationale":"The course distinguishes automatically updated Anthropic-built or organization-provisioned Skills from custom uploads, which require deliberate re-upload. Because configuration changes can compound, the revised procedure should be validated before full reliance.","optionExplanations":{"A":"Incorrect. Reference knowledge does not rewrite a Skill's bundled procedure automatically.","B":"Correct. It states the versioning distinction and the appropriate validation step.","C":"Incorrect. It reverses the documented maintenance behavior.","D":"Incorrect. A stale procedure can silently degrade every output regardless of model tier."},"concept":"Skill versioning and maintenance","lesson":"Maintaining Configurations","bloom":"Understand","difficulty":8,"confidence":"High","reference":"Course Notes > Configuration & Knowledge Management > Maintaining Configurations > Skills versioning; Exam Guide v1.0, Section 6, Domain 5.","officialTerminology":["custom-uploaded Skill","organization-provisioned Skill","maintenance","re-upload"],"distractorPatterns":["knowledge-auto-rewrite","versioning reversal","model-only maintenance"],"scenarioType":"Skill maintenance","crossModules":[7],"lastReviewDate":"2026-07-22","appearedInMocks":["CCAO-F Impossible Mock Test 01"]},{"id":58,"domain":2,"variant":"Multiple Response","selection":"multi","answerCount":2,"question":"An associate has two Claude-drafted executive recommendations based on the same verified analysis. Which TWO actions form the strongest comparison process?","options":{"A":"Choose the longer recommendation because it contains more reasoning.","B":"Ask Claude which of its drafts it prefers and accept that choice without additional criteria.","C":"Merge both drafts in full so no sentence is lost.","D":"Define decision-relevant criteria before choosing - factual fidelity, clarity of recommendation, treatment of uncertainty, audience fit, and required action - then score both drafts against them.","E":"Trace each draft's material claims back to the verified analysis and preserve the stronger base for a human editing pass."},"correct":["D","E"],"rationale":"A sound comparison uses explicit criteria and preserves source fidelity. The goal is to choose the strongest base for accountable editing, not to use length, self-preference, or a full merge as a proxy for quality.","optionExplanations":{"A":"Incorrect. Length can add redundancy and does not establish fitness or accuracy.","B":"Incorrect. Claude's preference is not a substitute for user-defined success criteria.","C":"Incorrect. Full merging preserves weaknesses and can introduce contradiction.","D":"Correct. It makes the comparison transparent and tied to the deliverable's purpose.","E":"Correct. It verifies factual fidelity and retains human accountability for the final edit."},"concept":"Criterion-based output comparison","lesson":"Editing & Adapting for Audience","bloom":"Apply","difficulty":9,"confidence":"High","reference":"Course Notes > Evaluating & Validating Claude's Output > Editing & Adapting for Audience and Discernment; Exam Guide v1.0, Section 6, Domain 2.","officialTerminology":["compare outputs","requirements","source material","professional standards"],"distractorPatterns":["length heuristic","model self-selection","merge-everything"],"scenarioType":"output comparison","crossModules":[1,4],"lastReviewDate":"2026-07-22","appearedInMocks":["CCAO-F Impossible Mock Test 01"]},{"id":59,"domain":4,"variant":"Workflow Evaluation","selection":"single","question":"A claims team proposes: Claude reads each claim, determines eligibility, issues the payment, and emails the claimant; a human audits 5% of cases monthly. Which evaluation is strongest?","options":{"A":"Approve it because monthly sampling makes every step collaborative.","B":"Approve it if Opus is used for eligibility decisions and code execution is used for payment totals.","C":"Reject it as over-delegated: separate extraction and drafting from eligibility, payment, and sending, and insert real human gates before consequential actions.","D":"Reject all Claude involvement because payment workflows are too consequential; even extraction or drafting would weaken human accountability for the final outcome."},"correct":["C"],"rationale":"A later sample audit does not review an individual claim before irreversible actions. The workflow collapses distinct steps and delegates consequential eligibility, payment, and sending. A defensible redesign can still use Claude for reversible preparation while retaining pre-action human gates.","optionExplanations":{"A":"Incorrect. Post-hoc sampling does not make unreviewed individual actions collaborative.","B":"Incorrect. Model and computation quality do not transfer approval authority or accountability.","C":"Correct. It evaluates the work at step level and redesigns the control points before action.","D":"Incorrect. It is an all-or-nothing response that discards safe augmentation opportunities."},"concept":"Pre-action human gates in consequential workflows","lesson":"Delegation Mapping","bloom":"Evaluate","difficulty":10,"confidence":"High","reference":"Course Notes > Workflow Integration & Solution Design > Delegation Mapping; Exam Guide v1.0, Section 6, Domain 4.","officialTerminology":["over-delegation","human review gate","reversibility","accountability"],"distractorPatterns":["post-hoc audit as gate","model-as-authority","all-human fallback"],"scenarioType":"workflow evaluation","crossModules":[2,3,6],"lastReviewDate":"2026-07-22","appearedInMocks":["CCAO-F Impossible Mock Test 01"]},{"id":60,"domain":7,"variant":"Optimization Plan","selection":"single","question":"A team wants to promote a promising report-workflow fix into the setup everyone uses. Which experiment plan is best?","options":{"A":"Replace the old workflow immediately, measure only minutes saved, and assume consistency will follow.","B":"Run the new setup once on an easy report and keep it if the output looks polished.","C":"Change the prompt, model, Skill, knowledge base, and review process together, then compare the new end-to-end workflow with the old one across representative cycles.","D":"Define purpose-matched metrics and a baseline, change one lever, run representative cycles with the old path available, compare results, then promote or revert."},"correct":["D"],"rationale":"Optimization is a controlled workflow change, not a one-off impression. The team should know what success means, preserve a baseline and fallback, test representative cycles, and measure the dimensions that matter. Isolating the lever also makes the result attributable.","optionExplanations":{"A":"Incorrect. Immediate replacement lets a bad change compound and assumes time is the only objective.","B":"Incorrect. One easy, polished example does not establish robustness or the intended gain.","C":"Incorrect. Changing many variables at once makes it impossible to know which change helped or harmed the workflow.","D":"Correct. It creates an evidence-based, reversible optimization experiment with purpose-matched metrics."},"concept":"Controlled optimization and purpose-matched measurement","lesson":"Optimizing Workflows","bloom":"Create","difficulty":10,"confidence":"High","reference":"Course Notes > Troubleshooting & Optimization > Optimizing Workflows; Exam Guide v1.0, Section 6, Domain 7.","officialTerminology":["baseline","representative cycles","measure the improvement","compounding cost"],"distractorPatterns":["immediate rollout","single-example bias","multi-variable confound"],"scenarioType":"optimization design","crossModules":[2,3,5],"lastReviewDate":"2026-07-22","appearedInMocks":["CCAO-F Impossible Mock Test 01"]}]};
+    const STORAGE_KEY = `ccao-f-impossible-mock-01-${DATA.version}`;
+    const DOMAIN = Object.fromEntries(DATA.blueprint.map(d => [d.domain, d]));
+    const VIEWS = ["landingView", "examView", "resultsView", "reviewView"];
+    let state = null;
+    let timerHandle = null;
+    let modalResolver = null;
+
+    const $ = id => document.getElementById(id);
+    const esc = value => String(value).replace(/[&<>"']/g, ch => ({"&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;","'":"&#39;"}[ch]));
+    const arraysEqual = (a, b) => a.length === b.length && [...a].sort().every((v, i) => v === [...b].sort()[i]);
+    const questionById = id => DATA.questions.find(q => q.id === id);
+    const answerFor = id => state.answers[String(id)] || [];
+    const isCorrect = q => arraysEqual(answerFor(q.id), q.correct);
+
+    function showView(id) {
+      VIEWS.forEach(v => $(v).classList.toggle("hidden", v !== id));
+      window.scrollTo({top: 0, behavior: "instant"});
+    }
+
+    function saveState() {
+      if (state) localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+      updateResumeButton();
+    }
+
+    function loadState() {
+      try {
+        const saved = JSON.parse(localStorage.getItem(STORAGE_KEY));
+        if (saved && saved.version === DATA.version) return saved;
+      } catch (_) {}
+      return null;
+    }
+
+    function freshState() {
+      const now = Date.now();
+      return {
+        version: DATA.version,
+        startedAt: now,
+        endAt: now + DATA.durationMinutes * 60 * 1000,
+        submittedAt: null,
+        currentIndex: 0,
+        answers: {},
+        flags: [],
+        submitted: false,
+        autoSubmitted: false
+      };
+    }
+
+    function updateResumeButton() {
+      const saved = loadState();
+      $("resumeBtn").classList.toggle("hidden", !saved);
+      if (saved) $("resumeBtn").textContent = saved.submitted ? "View saved result" : "Resume saved attempt";
+    }
+
+    function renderLandingData() {
+      $("blueprintBody").innerHTML = DATA.blueprint.map(d => `<tr><td><span class="pill">Domain ${d.domain}</span></td><td>${esc(d.name)}</td><td>${d.weight}%</td><td><b>${d.items}</b></td></tr>`).join("");
+      $("domainFilter").innerHTML = `<option value="all">All domains</option>` + DATA.blueprint.map(d => `<option value="${d.domain}">D${d.domain} · ${esc(d.name)}</option>`).join("");
+    }
+
+    function startFresh() {
+      const existing = loadState();
+      if (existing && !existing.submitted) {
+        askModal("Replace saved attempt?", "Starting again will erase the in-progress answers stored in this browser.", "Start fresh").then(ok => {
+          if (!ok) return;
+          state = freshState();
+          saveState();
+          enterExam();
+        });
+      } else {
+        state = freshState();
+        saveState();
+        enterExam();
+      }
+    }
+
+    function resumeAttempt() {
+      state = loadState();
+      if (!state) return;
+      if (state.submitted) {
+        renderResults();
+        return;
+      }
+      if (Date.now() >= state.endAt) {
+        state.autoSubmitted = true;
+        finalizeSubmission();
+        return;
+      }
+      enterExam();
+    }
+
+    function enterExam() {
+      showView("examView");
+      renderQuestion();
+      startTimer();
+    }
+
+    function renderQuestion() {
+      const q = DATA.questions[state.currentIndex];
+      const selected = answerFor(q.id);
+      $("questionKicker").innerHTML = [
+        `<span class="pill domain-pill">Domain ${q.domain}</span>`,
+        `<span class="pill">Question ${q.id} of ${DATA.questionCount}</span>`,
+        `<span class="pill">${esc(q.variant)}</span>`,
+        `<span class="pill">Difficulty ${q.difficulty}/10</span>`
+      ].join("");
+      $("questionText").textContent = q.question;
+      $("selectionNote").textContent = q.selection === "multi" ? `Select exactly ${q.answerCount} answers. Scoring is all-or-nothing.` : "Select the single best answer.";
+
+      if (q.caseId) {
+        const c = DATA.caseStudies[q.caseId];
+        $("caseBox").classList.remove("hidden");
+        $("caseTitle").textContent = `${c.title} · ${c.questionRange}`;
+        $("caseText").textContent = c.scenario;
+      } else {
+        $("caseBox").classList.add("hidden");
+      }
+
+      $("options").innerHTML = Object.entries(q.options).map(([letter, text]) => `
+        <button class="option ${selected.includes(letter) ? "selected" : ""}" data-letter="${letter}" aria-pressed="${selected.includes(letter)}">
+          <span class="letter">${letter}</span><span class="option-text">${esc(text)}</span>
+        </button>`).join("");
+      $("options").querySelectorAll(".option").forEach(btn => btn.addEventListener("click", () => selectOption(q, btn.dataset.letter)));
+
+      $("prevBtn").disabled = state.currentIndex === 0;
+      $("nextBtn").textContent = state.currentIndex === DATA.questions.length - 1 ? "Review navigator" : "Next";
+      $("flagBtn").classList.toggle("flag-active", state.flags.includes(q.id));
+      $("flagBtn").textContent = state.flags.includes(q.id) ? "⚑ Flagged" : "⚑ Flag";
+      renderPalette();
+      renderProgress();
+    }
+
+    function selectOption(q, letter) {
+      const key = String(q.id);
+      let current = [...answerFor(q.id)];
+      if (q.selection === "single") {
+        current = [letter];
+      } else if (current.includes(letter)) {
+        current = current.filter(x => x !== letter);
+      } else if (current.length < q.answerCount) {
+        current.push(letter);
+      } else {
+        toast(`Select exactly ${q.answerCount}; clear one choice before adding another.`);
+        return;
+      }
+      state.answers[key] = current;
+      saveState();
+      renderQuestion();
+    }
+
+    function clearAnswer() {
+      const q = DATA.questions[state.currentIndex];
+      delete state.answers[String(q.id)];
+      saveState();
+      renderQuestion();
+    }
+
+    function toggleFlag() {
+      const id = DATA.questions[state.currentIndex].id;
+      state.flags = state.flags.includes(id) ? state.flags.filter(x => x !== id) : [...state.flags, id];
+      saveState();
+      renderQuestion();
+    }
+
+    function goToIndex(index) {
+      state.currentIndex = Math.max(0, Math.min(DATA.questions.length - 1, index));
+      saveState();
+      renderQuestion();
+      $("palette").classList.remove("open");
+      window.scrollTo({top: 0, behavior: "smooth"});
+    }
+
+    function renderProgress() {
+      const answered = DATA.questions.filter(q => answerFor(q.id).length > 0).length;
+      $("progressCopy").textContent = `${answered} of ${DATA.questionCount} answered`;
+    }
+
+    function renderPalette() {
+      const filter = $("domainFilter").value;
+      const visible = filter === "all" ? DATA.questions : DATA.questions.filter(q => String(q.domain) === filter);
+      $("paletteGrid").innerHTML = visible.map(q => {
+        const classes = ["q-chip"];
+        if (answerFor(q.id).length) classes.push("answered");
+        if (state.flags.includes(q.id)) classes.push("flagged");
+        if (DATA.questions[state.currentIndex].id === q.id) classes.push("current");
+        return `<button class="${classes.join(" ")}" data-id="${q.id}" title="Question ${q.id} · Domain ${q.domain}">${q.id}</button>`;
+      }).join("");
+      $("paletteGrid").querySelectorAll("button").forEach(btn => btn.addEventListener("click", () => goToIndex(DATA.questions.findIndex(q => q.id === Number(btn.dataset.id)))));
+    }
+
+    function startTimer() {
+      clearInterval(timerHandle);
+      updateTimer();
+      timerHandle = setInterval(updateTimer, 1000);
+    }
+
+    function updateTimer() {
+      if (!state || state.submitted) return clearInterval(timerHandle);
+      const remain = Math.max(0, Math.ceil((state.endAt - Date.now()) / 1000));
+      const min = String(Math.floor(remain / 60)).padStart(2, "0");
+      const sec = String(remain % 60).padStart(2, "0");
+      $("timer").textContent = `${min}:${sec}`;
+      $("timer").classList.toggle("warning", remain <= 600);
+      if (remain <= 0) {
+        clearInterval(timerHandle);
+        state.autoSubmitted = true;
+        finalizeSubmission();
+      }
+    }
+
+    function requestSubmit() {
+      const unanswered = DATA.questions.filter(q => !answerFor(q.id).length).length;
+      const incompleteMulti = DATA.questions.filter(q => q.selection === "multi" && answerFor(q.id).length > 0 && answerFor(q.id).length !== q.answerCount).length;
+      const detail = `${unanswered} unanswered question${unanswered === 1 ? "" : "s"}${incompleteMulti ? ` and ${incompleteMulti} incomplete multiple-response item${incompleteMulti === 1 ? "" : "s"}` : ""}. Submission cannot be undone.`;
+      askModal("Submit exam?", detail, "Submit exam").then(ok => { if (ok) finalizeSubmission(); });
+    }
+
+    function finalizeSubmission() {
+      if (!state) state = freshState();
+      state.submitted = true;
+      state.submittedAt = Date.now();
+      clearInterval(timerHandle);
+      saveState();
+      renderResults();
+    }
+
+    function scoreData() {
+      const correct = DATA.questions.filter(isCorrect).length;
+      const percent = Math.round(correct / DATA.questionCount * 100);
+      const byDomain = DATA.blueprint.map(d => {
+        const items = DATA.questions.filter(q => q.domain === d.domain);
+        const hit = items.filter(isCorrect).length;
+        return {...d, correct: hit, percent: Math.round(hit / items.length * 100)};
+      });
+      const order = DATA.bloomTarget.map(x => x.level);
+      const byBloom = order.map(level => {
+        const items = DATA.questions.filter(q => q.bloom === level);
+        const hit = items.filter(isCorrect).length;
+        return {level, items: items.length, correct: hit, percent: Math.round(hit / items.length * 100)};
+      });
+      return {correct, percent, byDomain, byBloom};
+    }
+
+    function renderResults() {
+      showView("resultsView");
+      const score = scoreData();
+      const mastered = score.percent >= DATA.masteryBenchmark;
+      $("scorePercent").textContent = `${score.percent}%`;
+      $("scoreFraction").textContent = `${score.correct} / ${DATA.questionCount}`;
+      $("scoreRing").style.setProperty("--score-angle", `${score.percent * 3.6}deg`);
+      $("resultBadge").textContent = mastered ? "Mastery benchmark reached" : "Below mastery benchmark";
+      $("resultHeading").textContent = mastered ? "Exceptional control under ambiguity" : "The traps found your weak edges";
+      const unanswered = DATA.questions.filter(q => !answerFor(q.id).length).length;
+      $("resultSummary").textContent = `${state.autoSubmitted ? "Time expired and the exam was submitted automatically. " : ""}You answered ${score.correct} of ${DATA.questionCount} correctly${unanswered ? `, with ${unanswered} unanswered` : ""}. Use the audit to study the decision rule behind each miss, not just the answer letter.`;
+      $("domainResults").innerHTML = score.byDomain.map(d => metricRow(`D${d.domain} · ${d.name}`, d.correct, d.items, d.percent)).join("");
+      $("bloomResults").innerHTML = score.byBloom.map(b => metricRow(b.level, b.correct, b.items, b.percent)).join("");
+    }
+
+    function metricRow(label, correct, total, percent) {
+      return `<div class="metric-row"><div><div class="metric-label"><span title="${esc(label)}">${esc(label)}</span><span>${percent}%</span></div><div class="bar"><i style="width:${percent}%"></i></div></div><div class="metric-score">${correct}/${total}</div></div>`;
+    }
+
+    function renderReview(filter = $("reviewFilter").value) {
+      showView("reviewView");
+      $("reviewFilter").value = filter;
+      const items = DATA.questions.filter(q => {
+        if (filter === "incorrect") return !isCorrect(q);
+        if (filter === "correct") return isCorrect(q);
+        if (filter === "flagged") return state.flags.includes(q.id);
+        return true;
+      });
+      if (!items.length) {
+        $("reviewList").innerHTML = `<div class="card empty">No questions match this filter.</div>`;
+        return;
+      }
+      $("reviewList").innerHTML = items.map(q => reviewCard(q)).join("");
+    }
+
+    function reviewCard(q) {
+      const selected = answerFor(q.id);
+      const correct = isCorrect(q);
+      const answerText = selected.length ? selected.sort().join(", ") : "Unanswered";
+      const optionHtml = Object.entries(q.options).map(([letter, text]) => {
+        const isKey = q.correct.includes(letter);
+        const wasSelected = selected.includes(letter);
+        const classes = ["review-option"];
+        if (isKey) classes.push("correct-choice");
+        if (wasSelected && !isKey) classes.push("wrong-selected");
+        const tags = [isKey ? "Correct answer" : "", wasSelected ? "Your selection" : ""].filter(Boolean).join(" · ");
+        return `<div class="${classes.join(" ")}"><div class="review-option-head"><strong>${letter}</strong><span>${esc(text)}${tags ? ` <span class="pill" style="margin-left:6px">${esc(tags)}</span>` : ""}</span></div><p class="review-explanation">${esc(q.optionExplanations[letter])}</p></div>`;
+      }).join("");
+      const caseLabel = q.caseId ? `<span class="pill">${esc(DATA.caseStudies[q.caseId].title)}</span>` : "";
+      return `<article class="card review-card ${correct ? "correct-card" : "wrong-card"}">
+        <div class="question-kicker"><span class="pill domain-pill">D${q.domain}</span><span class="pill">Question ${q.id}</span><span class="pill">${correct ? "Correct" : "Incorrect"}</span>${caseLabel}</div>
+        <h3 style="line-height:1.4">${esc(q.question)}</h3>
+        <p class="selection-note"><b>Your answer:</b> ${esc(answerText)} &nbsp;·&nbsp; <b>Correct:</b> ${q.correct.join(", ")}</p>
+        ${optionHtml}
+        <div class="rationale"><strong>Detailed explanation</strong>${esc(q.rationale)}</div>
+        <div class="meta-grid">
+          <div><b>Module:</b> Domain ${q.domain} · ${esc(DOMAIN[q.domain].name)}</div>
+          <div><b>Lesson:</b> ${esc(q.lesson)}</div>
+          <div><b>Official concept:</b> ${esc(q.concept)}</div>
+          <div><b>Bloom / Difficulty:</b> ${esc(q.bloom)} · ${q.difficulty}/10</div>
+          <div><b>Confidence:</b> ${esc(q.confidence)}</div>
+          <div><b>Trap pattern:</b> ${esc(q.distractorPatterns.join("; "))}</div>
+          <div style="grid-column:1/-1"><b>Reference:</b> ${esc(q.reference)}</div>
+          <div style="grid-column:1/-1"><b>Official terminology:</b> ${esc(q.officialTerminology.join(", "))}</div>
+        </div>
+      </article>`;
+    }
+
+    function downloadResult() {
+      const score = scoreData();
+      const payload = {
+        exam: DATA.title,
+        version: DATA.version,
+        completedAt: new Date(state.submittedAt).toISOString(),
+        score: {correct: score.correct, total: DATA.questionCount, percent: score.percent},
+        byDomain: score.byDomain,
+        byBloom: score.byBloom,
+        responses: DATA.questions.map(q => ({id: q.id, domain: q.domain, selected: answerFor(q.id), correct: q.correct, scoredCorrect: isCorrect(q), flagged: state.flags.includes(q.id)}))
+      };
+      const blob = new Blob([JSON.stringify(payload, null, 2)], {type: "application/json"});
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = "CCAO-F_Impossible_Mock_01_Result.json";
+      a.click();
+      setTimeout(() => URL.revokeObjectURL(url), 500);
+    }
+
+    function askModal(title, text, confirmLabel = "Confirm") {
+      $("modalTitle").textContent = title;
+      $("modalText").textContent = text;
+      $("modalConfirm").textContent = confirmLabel;
+      $("modalBackdrop").classList.remove("hidden");
+      return new Promise(resolve => { modalResolver = resolve; });
+    }
+
+    function closeModal(value) {
+      $("modalBackdrop").classList.add("hidden");
+      if (modalResolver) modalResolver(value);
+      modalResolver = null;
+    }
+
+    function toast(message) {
+      $("toast").textContent = message;
+      $("toast").classList.remove("hidden");
+      clearTimeout(toast._timer);
+      toast._timer = setTimeout(() => $("toast").classList.add("hidden"), 2600);
+    }
+
+    function goHome() {
+      clearInterval(timerHandle);
+      updateResumeButton();
+      showView("landingView");
+    }
+
+    function toggleTheme() {
+      const current = document.documentElement.dataset.theme || "light";
+      const next = current === "dark" ? "light" : "dark";
+      document.documentElement.dataset.theme = next;
+      localStorage.setItem("ccao-theme", next);
+    }
+
+    function init() {
+      document.documentElement.dataset.theme = localStorage.getItem("ccao-theme") || (matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light");
+      renderLandingData();
+      updateResumeButton();
+      const saved = loadState();
+      if (saved && saved.submitted) {
+        state = saved;
+      }
+      $("startBtn").addEventListener("click", startFresh);
+      $("resumeBtn").addEventListener("click", resumeAttempt);
+      $("homeBtn").addEventListener("click", goHome);
+      $("themeBtn").addEventListener("click", toggleTheme);
+      $("paletteToggle").addEventListener("click", () => $("palette").classList.toggle("open"));
+      $("domainFilter").addEventListener("change", renderPalette);
+      $("prevBtn").addEventListener("click", () => goToIndex(state.currentIndex - 1));
+      $("nextBtn").addEventListener("click", () => state.currentIndex === DATA.questions.length - 1 ? $("palette").classList.add("open") : goToIndex(state.currentIndex + 1));
+      $("flagBtn").addEventListener("click", toggleFlag);
+      $("clearBtn").addEventListener("click", clearAnswer);
+      $("submitBtn").addEventListener("click", requestSubmit);
+      $("modalCancel").addEventListener("click", () => closeModal(false));
+      $("modalConfirm").addEventListener("click", () => closeModal(true));
+      $("reviewWrongBtn").addEventListener("click", () => renderReview("incorrect"));
+      $("reviewAllBtn").addEventListener("click", () => renderReview("all"));
+      $("reviewFilter").addEventListener("change", e => renderReview(e.target.value));
+      $("backResultsBtn").addEventListener("click", renderResults);
+      $("downloadBtn").addEventListener("click", downloadResult);
+      $("printBtn").addEventListener("click", () => window.print());
+      $("retakeBtn").addEventListener("click", () => {
+        askModal("Start a fresh attempt?", "This will replace the completed attempt stored in this browser.", "Start fresh").then(ok => {
+          if (!ok) return;
+          state = freshState();
+          saveState();
+          enterExam();
+        });
+      });
+    }
+
+    init();
+  </script>
+</body>
+</html>

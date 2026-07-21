@@ -1,0 +1,118 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+defaults:
+  run:
+    working-directory: mockcred
+
+jobs:
+  quality:
+    name: Typecheck · Lint · Unit · Build
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+          cache-dependency-path: mockcred/package-lock.json
+      - run: npm ci
+      - run: npm run typecheck
+      - run: npm run lint
+      - run: npm test
+      - run: npm run build
+
+  integration:
+    name: Integration (Postgres)
+    runs-on: ubuntu-latest
+    services:
+      postgres:
+        image: postgres:16-alpine
+        env:
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: postgres
+          POSTGRES_DB: mockcred
+        ports: ["5432:5432"]
+        options: >-
+          --health-cmd "pg_isready -U postgres -d mockcred"
+          --health-interval 3s --health-timeout 3s --health-retries 20
+    env:
+      # App connects as a NON-superuser so RLS (incl. FORCE) is enforced.
+      DATABASE_URL: postgresql://mockcred:mockcred@localhost:5432/mockcred
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+          cache-dependency-path: mockcred/package-lock.json
+      - name: Provision non-superuser app role
+        env:
+          PGPASSWORD: postgres
+        run: |
+          psql -h localhost -U postgres -d mockcred -v ON_ERROR_STOP=1 \
+            -c "create role mockcred login password 'mockcred' nosuperuser;" \
+            -c "grant all on database mockcred to mockcred;" \
+            -c "alter schema public owner to mockcred;"
+      - run: npm ci
+      - run: npm run db:migrate
+      - run: npm run db:seed
+      - run: npm run test:integration
+
+  e2e:
+    name: E2E (Playwright)
+    runs-on: ubuntu-latest
+    services:
+      postgres:
+        image: postgres:16-alpine
+        env:
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: postgres
+          POSTGRES_DB: mockcred
+        ports: ["5432:5432"]
+        options: >-
+          --health-cmd "pg_isready -U postgres -d mockcred"
+          --health-interval 3s --health-timeout 3s --health-retries 20
+    env:
+      DATABASE_URL: postgresql://mockcred:mockcred@localhost:5432/mockcred
+      AUTH_PROVIDER: dev
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+          cache-dependency-path: mockcred/package-lock.json
+      - name: Provision non-superuser app role
+        env:
+          PGPASSWORD: postgres
+        run: |
+          psql -h localhost -U postgres -d mockcred -v ON_ERROR_STOP=1 \
+            -c "create role mockcred login password 'mockcred' nosuperuser;" \
+            -c "grant all on database mockcred to mockcred;" \
+            -c "alter schema public owner to mockcred;"
+      - run: npm ci
+      - run: npx playwright install --with-deps chromium
+      - run: npm run db:migrate
+      - run: npm run db:seed
+      - run: npm run build
+      - run: npm run test:e2e
+
+  docker:
+    name: Docker build
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: docker/setup-buildx-action@v3
+      - name: Build image
+        uses: docker/build-push-action@v6
+        with:
+          context: mockcred
+          target: runner
+          push: false
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
