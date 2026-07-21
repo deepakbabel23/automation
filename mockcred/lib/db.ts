@@ -2,24 +2,38 @@ import postgres from "postgres";
 import { databaseUrl } from "@/lib/env";
 
 /**
- * Shared Postgres client. postgres.js connects lazily on first query, so
- * importing this module never opens a connection at build time.
+ * Shared Postgres client, created LAZILY on first use. Importing this module
+ * never opens a connection or reads DATABASE_URL, so `next build` (which imports
+ * route modules but does not query) works without a database configured.
  */
 declare global {
   // eslint-disable-next-line no-var
   var __mockcredSql: ReturnType<typeof postgres> | undefined;
 }
 
-export const sql =
-  global.__mockcredSql ??
-  postgres(databaseUrl(), {
-    max: Number(process.env.DB_POOL_MAX ?? 10),
-    idle_timeout: 20,
-  });
-
-if (process.env.NODE_ENV !== "production") {
-  global.__mockcredSql = sql;
+function instance(): ReturnType<typeof postgres> {
+  if (!global.__mockcredSql) {
+    global.__mockcredSql = postgres(databaseUrl(), {
+      max: Number(process.env.DB_POOL_MAX ?? 10),
+      idle_timeout: 20,
+    });
+  }
+  return global.__mockcredSql;
 }
+
+// A callable proxy that forwards tagged-template calls and property access to
+// the lazily-created postgres client.
+export const sql = new Proxy(function () {} as unknown as ReturnType<typeof postgres>, {
+  apply(_target, _thisArg, args: unknown[]) {
+    // @ts-expect-error postgres() is variadic (template tag or helper call)
+    return instance()(...args);
+  },
+  get(_target, prop: string | symbol) {
+    const client = instance() as unknown as Record<string | symbol, unknown>;
+    const value = client[prop];
+    return typeof value === "function" ? value.bind(client) : value;
+  },
+});
 
 /**
  * Run a callback on behalf of a specific user. Opens a transaction, sets the
