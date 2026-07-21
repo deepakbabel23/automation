@@ -80,6 +80,30 @@ can be charged until prices are set (see Phase 4).
 
 ---
 
-## Phases 2–4 — `TODO`
+## Phase 2 — Auth + free quiz — `DONE`
+
+**Delivered:**
+- Auth behind a provider interface (`lib/auth/`): self-contained signed-cookie
+  sessions (`session.ts` HMAC) as the `dev`/MVP provider; Clerk is the documented
+  `AUTH_PROVIDER=clerk` swap. Login/logout API routes + `/sign-in` page.
+- Catalog + dashboard: `lib/exams.ts`, `/exams`, `/exams/[slug]`, `/dashboard`.
+- Free practice engine (`lib/attempts.ts`): start attempt over free questions,
+  server-authoritative scoring (reuses `lib/scoring.ts`), results with per-domain
+  breakdown + full review. Pages: `/attempts/[id]`; components `QuizRunner`,
+  `AttemptResults`, `SignInForm`.
+- **Answer-hiding invariant enforced + tested**: in-progress questions never carry
+  `is_correct`/`explanation`; correct answers are revealed only after submission.
+
+**Verification (local, all green):** `typecheck ✓ · lint ✓ · unit 15 ✓ ·
+integration 11 ✓ · e2e 3 ✓ · build ✓`. E2E walks sign-in → dashboard → exam →
+free practice → submit → score. Integration proves scoring (100%/0%), the
+answer-hiding invariant, double-submit rejection, and cross-user RLS on attempts.
+
+**Note:** Session cookie `Secure` flag is derived from the app URL protocol (so
+http localhost/e2e stores it; production over https stays Secure).
+
+---
+
+## Phases 3–4 — `TODO`
 
 See `PLAN.md`. Each will append its own checkpoint entry here on completion.
