@@ -1,7 +1,6 @@
 -- 0001_schema.sql — core schema for MockCred.
 -- Portable Postgres (runs on local/CI Postgres and on Supabase).
-
-create extension if not exists pgcrypto;
+-- gen_random_uuid() is a core function in Postgres 13+, so no extension needed.
 
 -- ---------------------------------------------------------------------------
 -- Content (public, except correct answers/explanations which are filtered in
