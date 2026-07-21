@@ -154,8 +154,22 @@ are configured. See `.env.example`.
 
 ---
 
+## Phase 5 (partial) — Demo capture — `DONE`
+
+**Delivered:** `npm run demo` (Playwright, `playwright.demo.config.ts` +
+`tests/demo/demo.spec.ts`) records a full-flow video (`demo/mockcred-demo.webm`)
+and 11 step screenshots (`demo/screens/`). Walkthrough: landing → sign-in →
+dashboard → exam → free practice → results → timed mock (timer + navigator +
+flag) → results → pricing. See `demo/README.md`.
+
+The rest of Phase 5 (PostHog funnels, per-exam SEO pages, result emails) remains
+GTM polish for post-MVP.
+
+---
+
 ## Status summary
 
 All MVP phases (0–4) are implemented, dockerized, and covered by a unit +
-integration + e2e test pyramid running in GitHub Actions. Remaining: Phase 5
-(demo capture), and the GTM polish / live-checkout wiring when pricing goes live.
+integration + e2e test pyramid running in GitHub Actions (20 unit, 22 integration,
+4 e2e), plus a recorded product demo. Remaining: GTM polish (Phase 5) and
+live-checkout wiring (Razorpay Checkout.js + keys) when pricing goes live.

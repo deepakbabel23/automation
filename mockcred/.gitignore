@@ -8,6 +8,8 @@
 /playwright-report
 /test-results
 /.playwright
+# raw Playwright output for the demo (the curated video + screenshots are committed)
+/demo/artifacts
 
 # next.js
 /.next/
