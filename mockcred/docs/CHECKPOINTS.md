@@ -126,6 +126,36 @@ flag + submit).
 
 ---
 
-## Phase 4 — Paywall + Razorpay — `TODO`
+## Phase 4 — Paywall + Razorpay — `DONE` (backend; live checkout needs keys)
 
-See `PLAN.md`. Will append its checkpoint entry here on completion.
+**Delivered:**
+- `lib/razorpay.ts`: pure signature verification (`verifyWebhookSignature`,
+  `verifyPaymentSignature`, HMAC-SHA256 + timing-safe compare) and an injectable
+  `RazorpayClient` (REST impl, no SDK). `getRazorpayClient()` returns null without keys.
+- `lib/payments.ts`: `createOrderIntent` (one-time pack), `createSubscriptionIntent`
+  (all-access), and `processRazorpayEvent` — idempotent (via `webhook_events`),
+  grants entitlements ONLY from verified webhooks, reads the paying user from
+  order/subscription `notes` (so no RLS-scoped lookup is needed).
+- Routes: `/api/razorpay/order`, `/api/razorpay/subscription`, `/api/razorpay/webhook`
+  (raw-body signature verification). `lib/email.ts` sends Resend receipts (no-op offline).
+- Migration `0003_webhook_events.sql` for webhook idempotency.
+
+**Verification (local, all green):** `typecheck ✓ · lint ✓ · unit 20 ✓ ·
+integration 22 ✓ · e2e 4 ✓ · build ✓`. Tests prove: signature accept/reject,
+order intent (no grant pre-webhook), `order.paid` → exam entitlement + payment
+`paid`, duplicate-event idempotency (single grant), and subscription
+activate→all-access / cancel→revoke.
+
+**Boundary:** the server side (orders, subscriptions, signed webhooks, entitlement
+granting, receipts) is complete and tested offline with a mocked client. The only
+remaining step for live charging is wiring Razorpay Checkout.js on the client and
+adding real keys — deferred because pricing is **free-only for now** and no keys
+are configured. See `.env.example`.
+
+---
+
+## Status summary
+
+All MVP phases (0–4) are implemented, dockerized, and covered by a unit +
+integration + e2e test pyramid running in GitHub Actions. Remaining: Phase 5
+(demo capture), and the GTM polish / live-checkout wiring when pricing goes live.
